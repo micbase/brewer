@@ -1,0 +1,53 @@
+<%inherit file="/layouts/base.html" />
+
+<%def name="css_files()">
+    ${ parent.css_files() }
+    ## <link href="/static/css/index.css" rel="stylesheet">
+</%def>
+
+<%def name="title()">Course List</%def>
+<%def name="js_defer()">
+    ${ parent.js_defer() }
+</%def>
+
+<br />
+<form class="form-inline" id="inputForm" action="/" method="get" role="form">
+    <div class="col-xs-12">
+        <div class="input-group">
+            <input class="form-control" type="text" name="course_name" id="course_name"
+            placeholder="Course Name" value="${ course_name }">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" value="Search">Search</button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<br />
+
+<div class="col-xs-12">
+
+    % if object_list:
+    <div class="list-group">
+        % for course in object_list:
+        <a href="/topics/${ course.id }" class="list-group-item">
+            <h4 class="list-group-item-heading">${ course.name }           
+            % if user.is_authenticated(): 
+                                                
+                    % for student in course.students.all():  
+                    % if student.id == user.id:
+                        <img src="../static/img/icon.png"/>
+                    % else: 
+                    % endif                   
+                    % endfor 
+                    
+            % else:
+                   
+            % endif
+            </h4>             
+            <p class="list-group-item-text">${ course.professor_firstname + " " + course.professor_lastname}</p>
+        </a>
+        % endfor
+    </div>
+    % endif
+</div>
