@@ -2,12 +2,13 @@
 
 <%def name="css_files()">
     ${ parent.css_files() }
-    ## <link href="/static/css/index.css" rel="stylesheet">
+    ## <link href="/static/css/recipe.css" rel="stylesheet">
 </%def>
 
 <%def name="title()">Recipe - ${recipe.name}</%def>
 <%def name="js_defer()">
     ${ parent.js_defer() }
+    <script src="/static/js/recipe.js"></script>
 </%def>
 
 <div class="col-xs-12">
@@ -18,31 +19,27 @@
     <ul>
         <li>
         <p>Coffee</p>
-        <span class="label label-warning">Note</span>
-        <!--<form action="/join_course" method="POST">-->
-            <!--<div class="col-xs-12">-->
-                <!--<div class="input-group">-->
-                    <!--<input type="text" class="form-control">-->
-                    <!--<span class="input-group-btn">-->
-                        <!--<button class="btn btn-default" type="button">Save</button>-->
-                    <!--</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</form>-->
+        <div id="ingredient_note_1" class="ingredient_note alert alert-warning">Note</div>
+        <div id="ingredient_form_1" class="hidden form-group">
+            <div class="input-group">
+                <input id="ingredient_note_input_1" type="text" class="form-control" value="Note">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(1);">Save</button>
+                </span>
+            </div>
+        </div>
         </li>
         <li>
         <p>Coffee</p>
-        <span class="label label-warning">Note</span>
-        <!--<form action="/join_course" method="POST">-->
-            <!--<div class="col-xs-12">-->
-                <!--<div class="input-group">-->
-                    <!--<input type="text" class="form-control">-->
-                    <!--<span class="input-group-btn">-->
-                        <!--<button class="btn btn-default" type="button">Save</button>-->
-                    <!--</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</form>-->
+        <div id="ingredient_note_2" class="ingredient_note alert alert-warning">Note</div>
+        <div id="ingredient_form_2" class="hidden form-group">
+            <div class="input-group">
+                <input id="ingredient_note_input_2" type="text" class="form-control" value="Note">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(2);">Save</button>
+                </span>
+            </div>
+        </div>
         </li>
     </ul>
     <h3>Procedures</h3>
