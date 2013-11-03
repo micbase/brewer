@@ -2,7 +2,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-import dashboard as dashboard_constants
+import brewer as brewer_constants
 
 
 class Course(models.Model):
@@ -38,8 +38,7 @@ class CourseSchedule(models.Model):
     course = models.ForeignKey(Course)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    weekday = models.PositiveSmallIntegerField(
-        choices=dashboard_constants.WEEKDAY_CHOICES)
+    weekday = models.PositiveSmallIntegerField()
 
     created = models.DateTimeField(auto_now_add=True)
     changed = models.DateTimeField(auto_now=True)
@@ -55,8 +54,7 @@ class Membership(models.Model):
 
     member = models.ForeignKey(User)
     course = models.ForeignKey(Course)
-    status = models.PositiveSmallIntegerField(
-        default=dashboard_constants.ENROLL_COURSE)
+    status = models.PositiveSmallIntegerField()
 
     def __unicode__(self):
         return self.id

@@ -1,0 +1,55 @@
+<%inherit file="/layouts/base.html" />
+
+<%def name="css_files()">
+    ${ parent.css_files() }
+    ## <link href="/static/css/index.css" rel="stylesheet">
+</%def>
+
+<%def name="title()">Recipe - ${recipe.name}</%def>
+<%def name="js_defer()">
+    ${ parent.js_defer() }
+</%def>
+
+<div class="col-xs-12">
+    ##<h2>${recipe.name}</h2>
+    <h2>Bavarian Hefeweizen</h2>
+    <hr>
+    <h3>Ingredients</h3>
+    <ul>
+        <li>
+        <p>Coffee</p>
+        <span class="label label-warning">Note</span>
+        <!--<form action="/join_course" method="POST">-->
+            <!--<div class="col-xs-12">-->
+                <!--<div class="input-group">-->
+                    <!--<input type="text" class="form-control">-->
+                    <!--<span class="input-group-btn">-->
+                        <!--<button class="btn btn-default" type="button">Save</button>-->
+                    <!--</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+        </li>
+        <li>
+        <p>Coffee</p>
+        <span class="label label-warning">Note</span>
+        <!--<form action="/join_course" method="POST">-->
+            <!--<div class="col-xs-12">-->
+                <!--<div class="input-group">-->
+                    <!--<input type="text" class="form-control">-->
+                    <!--<span class="input-group-btn">-->
+                        <!--<button class="btn btn-default" type="button">Save</button>-->
+                    <!--</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+        </li>
+    </ul>
+    <h3>Procedures</h3>
+    <ol>
+        <li>
+        Coffee
+        </li>
+    </ol>
+
+</div>

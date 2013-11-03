@@ -1,19 +1,15 @@
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
     CreateView,
     ListView,
     TemplateView,
-    View,
 )
 
 from auth.views import LoginRequiredMixin
 import brewer as brewer_constants
-from brewer.forms import (
-    CreateTopicForm,CreatePostForm,
-)
+from brewer.forms import CreateTopicForm
 from brewer.models import (
     Course,
     CourseSchedule,
@@ -44,29 +40,16 @@ class UserProfileView(LoginRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        users=self.request.user
+        users = self.request.user
         return Course.objects.filter(
             students=users
         )
+
     def get_membership(self):
-        users=self.request.user
+        users = self.request.user
         return Membership.objects.filter(
             member=users
         )
-
-
-class JoinClassView(LoginRequiredMixin, View):
-
-    def post(self, request, **kwargs):
-        user = self.request.user
-        course_id = request.POST.get('course_id', "")
-        membership, created = Membership.objects.get_or_create(
-            member=user,
-            course_id=course_id,
-        )
-        membership.status = brewer_constants.ENROLL_COURSE
-        membership.save()
-        return HttpResponseRedirect('/topics/' + course_id)
 
 
 class CreateTopicView(LoginRequiredMixin, CreateView):
@@ -90,16 +73,8 @@ class CreateTopicView(LoginRequiredMixin, CreateView):
         return context
 
 
-class TopicsView(ListView):
-    template_name = 'brewer/topics.html'
-    paginate_by = 20
-    context_object_name = 'topics'
-
-    def get_queryset(self):
-        course_id = self.kwargs['course_id']
-        return Topic.objects.filter(
-            course_id=course_id,
-        )
+class RecipeView(TemplateView):
+    template_name = 'brewer/recipe.html'
 
     def get_course(self):
         course_id = self.kwargs['course_id']
@@ -119,7 +94,8 @@ class TopicsView(ListView):
             return False
 
     def get_context_data(self, **kwargs):
-        context = super(TopicsView, self).get_context_data(**kwargs)
-        context['course'] = self.get_course()
-        context['course_joined'] = self.is_course_joined()
+        context = super(RecipeView, self).get_context_data(**kwargs)
+        #context['course'] = self.get_course()
+        #context['course_joined'] = self.is_course_joined()
+        context['recipe'] = Course.objects.get(pk=self.kwargs['recipe_id'])
         return context
