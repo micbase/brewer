@@ -1,0 +1,46 @@
+<%inherit file="/layouts/base.html" />
+
+<%def name="css_files()">
+    ${ parent.css_files() }
+    ## <link href="/static/css/index.css" rel="stylesheet">
+</%def>
+
+<%def name="title()">Course List</%def>
+<%def name="js_defer()">
+    ${ parent.js_defer() }
+</%def>
+
+<div>
+	
+</div>
+<div class="panel panel-default panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">User Profile</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-xs-12">
+            <h4>Your Info:</h4>
+            <span class="glyphicon glyphicon-tag"> </span> Username: ${ user.username }</br>
+            <span class="glyphicon glyphicon-envelope"> </span> Email: ${ user.email }</br>
+            <span class="glyphicon glyphicon-user"> </span>  Name: ${ user.first_name } ${ user.last_name }
+        
+            <hr>
+        
+            <h4>Your Courses:</h4>
+            % if object_list:
+            <div class="list-group">
+                          
+                % for course in object_list:
+                <a href="/topics/${ course.id }" class="list-group-item">
+                    <h4 class="list-group-item-heading">${ course.name }</h4>
+                    <p class="list-group-item-text">
+                    ${ course.professor_firstname + " " + course.professor_lastname}
+                    </p>
+                </a>
+                % endfor
+            </div>
+            % endif
+        </div>
+    </div>
+</div>
+

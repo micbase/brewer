@@ -1,0 +1,35 @@
+<%inherit file="/layouts/base.html" />
+
+<%def name="css_files()">
+    ${ parent.css_files() }
+    ## <link href="/static/css/index.css" rel="stylesheet">
+</%def>
+
+<%def name="title()">Topics - Study Together</%def>
+<%def name="js_defer()">
+    ${ parent.js_defer() }
+</%def>
+
+<div class="col-xs-12">
+    <h3>${course.name} Topics</h3>
+    % if course_joined:
+        <a class="col-xs-12 btn btn-success" href="/create_topic/${ course.pk }">Create a Topic</a>
+        <br />
+        <br />
+        %if topics:
+        <div class="list-group">
+            %for topic in topics:
+            <a href="/posts/${ topic.id }" class="list-group-item">
+                <h4 class="list-group-item-heading">${ topic.title }</h4>
+                <p class="list-group-item-text">${ topic.content }</p>
+            </a>
+            %endfor
+            </div>
+        %endif
+    % else:
+        <form action="/join_course" method="POST">
+            <input type="TEXT" name="course_id" value="${ course.pk }" hidden>
+            <input class="col-xs-12 btn btn-success" type="submit" value="Join this course">
+        </form>
+    % endif
+</div>

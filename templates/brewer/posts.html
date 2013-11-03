@@ -1,0 +1,50 @@
+<%inherit file="/layouts/base.html" />
+
+<%def name="css_files()">
+    ${ parent.css_files() }
+    ## <link href="/static/css/index.css" rel="stylesheet">
+</%def>
+
+<%def name="title()">Create Post</%def>
+<%def name="js_defer()">
+    ${ parent.js_defer() }
+</%def>
+
+<div class="col-xs-12">
+        <h3> ${topic.title} </h3>
+        <div class="text-muted"> ${topic.author.first_name} - ${topic.created.strftime("%a, %d %b %Y %H:%M")}
+            <div class="pull-right"> <a class="btn btn-success" href="#inputbox">Reply</a></div>
+        </div>
+        <span class="text-info">${ topic.content} </span>
+
+        <hr>
+        <dl class="dl-horizontal">
+            % for item in reply:
+                <dt> ${item.author.first_name} </dt>
+                <dd> ${item.content} - ${item.created.strftime("%a, %d %b %Y %H:%M")} </dd>
+            % endfor
+        </dl>
+        <br />
+
+      
+</div>
+<div class="col-xs-12">
+    <h3>Post</h3>
+    <form class="form-horizontal" id="inputform" action="/post_content/${topic_id}" method="POST" role="form">
+        <a name="inputbox">
+            <div class="col-xs-12">
+                % for field in form:
+                    <div class="form-group">
+                        ${field}
+                    </div>
+                % endfor
+            </div>
+            </a>
+            <br>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <input class="btn btn-success col-xs-12" type="submit" value="Reply">
+                </div>
+            </div>
+         </form> 
+</div>
