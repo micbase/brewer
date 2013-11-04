@@ -5,103 +5,106 @@ from django.db import models
 import brewer as brewer_constants
 
 
-class Course(models.Model):
+class Source(models.Model):
+    variety = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+    )
     name = models.CharField(
         max_length=150,
         default='',
         blank=False,
     )
-    professor_firstname = models.CharField(
-        max_length=50,
-        default='',
-        blank=True,
-    )
-    professor_lastname = models.CharField(
-        max_length=50,
-        default='',
-        blank=True,
-    )
-    manager = models.ForeignKey(User, related_name='manager+')
-    students = models.ManyToManyField(User, related_name='students+', through='Membership')
-
-    created = models.DateTimeField(auto_now_add=True)
-    changed = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.name
 
     class Meta:
-        db_table = 'Courses'
+        db_table = 'Sources'
 
-
-class CourseSchedule(models.Model):
-    course = models.ForeignKey(Course)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    weekday = models.PositiveSmallIntegerField()
-
-    created = models.DateTimeField(auto_now_add=True)
-    changed = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.course.name
-
-    class Meta:
-        db_table = 'CourseSchedules'
-
-
-class Membership(models.Model):
-
-    member = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
-    status = models.PositiveSmallIntegerField()
-
-    def __unicode__(self):
-        return self.id
-
-    class Meta:
-        db_table = 'Memberships'
-
-
-class Topic(models.Model):
-    title = models.CharField(
+class Recipe(models.Model):
+    brewer = models.ForeignKey(User)
+    name = models.CharField(
         max_length=150,
         default='',
         blank=False,
     )
+    inote = models.CharField(
+        max_length=500,
+        default='',
+        blank=True,
+    )    
+    note = models.CharField(
+        max_length=500,
+        default='',
+        blank=True,
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    changed = models.DateTimeField(auto_now=True)    
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Recipes'
+
+class Ingredient(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    source = models.ForeignKey(Source)
+    amount=models.FloatField(default=0.0)
+    unit = models.CharField(
+        max_length=20,
+        default='',
+        blank=True,
+    )    
+    note = models.CharField(
+        max_length=500,
+        default='',
+        blank=True,
+    )    
+    created = models.DateTimeField(auto_now_add=True)
+    changed = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.recipe.name
+
+    class Meta:
+        db_table = 'Ingredients'
+
+
+class Procedure(models.Model):
+
+    recipe = models.ForeignKey(Recipe)
+
+    title = models.CharField(
+        max_length=100,
+        default='',
+        blank=True,
+    ) 
+    tag = models.CharField(
+        max_length=100,
+        default='',
+        blank=True,
+    ) 
     content = models.CharField(
         max_length=500,
         default='',
-        blank=False,
-    )
-    author = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
-    status = models.PositiveSmallIntegerField(default=1)
-
+        blank=True,
+    )            
+    note = models.CharField(
+        max_length=500,
+        default='',
+        blank=True,
+    )     
+    # order = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now_add=True)
-    changed = models.DateTimeField(auto_now=True)
+    changed = models.DateTimeField(auto_now=True)    
 
     def __unicode__(self):
         return self.id
 
     class Meta:
-        db_table = 'Topics'
+        db_table = 'Procedures'
 
 
-class Post(models.Model):
-    content = models.CharField(
-        max_length=500,
-        default='',
-        blank=False,
-    )
-    author = models.ForeignKey(User)
-    topic = models.ForeignKey(Topic)
 
-    created = models.DateTimeField(auto_now_add=True)
-    changed = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.id
-
-    class Meta:
-        db_table = 'Posts'

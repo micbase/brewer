@@ -1,7 +1,7 @@
 
 from django.contrib.auth.models import User
 
-from dashboard.models import Course, Topic, Post, Membership, CourseSchedule
+from brewer.models import Source, Ingredient, Recipe, Procedure
 
 import datetime
 
@@ -33,136 +33,75 @@ user_5 = User.objects.create_user(username="adulany", email="aDulany@gmail.com",
 user_5.save()
 
 
-course_1 = Course(name="EECS 212 (formerly 310) Mathematical Foundations of Computer Science", professor_firstname="Hendrix", professor_lastname="William", manager=user_1)
-course_1.save()
+source_1=Source(variety="Grains", name="Weyermann Pale Wheat Malt")
+source_1.save()
 
-course_2 = Course(name="EECS 214 (formerly 311) Data Structures and Data Management", professor_firstname="Scheuermann", professor_lastname="Peter", manager=user_1)
-course_2.save()
+source_2=Source(variety="Grains", name="German Pilsner Malt")
+source_2.save()
 
-course_3 = Course(name="EECS  336 - Design & Analysis of Algorithms", professor_firstname="Hartline", professor_lastname="Jason", manager=user_1)
-course_3.save()
+source_3=Source(variety="Yeast", name="Wyeast 3068 Weihenstephan Wheat")
+source_3.save()
 
-course_4 = Course(name="EECS  339 - Introduction to Database Systems", professor_firstname="Peter", professor_lastname="Dinda", manager=user_1)
-course_4.save()
+source_4=Source(variety="Hops", name="Hallertau")
+source_4.save()
 
-course_5 = Course(name="EECS 394 - Software Project Management", professor_firstname="Riesbeck", professor_lastname="Chris", manager=user_1)
-course_5.save()
+source_5=Source(variety="Priming Sugar", name="Priming Sugar ")
+source_5.save()
 
-topic_1=Topic(title="Today's class is awesome", content="I really enjoyed today's class. I learned a lot of things about graphs which i've been facinated with.", author=user_3, course=course_1)
-topic_1.save()
-topic_2=Topic(title="Did anyone get the question about Binary Search Tree?", content="I am so confused, what does the professor mean by O(logn)?", author=user_2, course=course_2)
-topic_2.save()
-topic_3=Topic(title="Does anyone want to study together for next week's exam?", content="Does anyone want to study together for next week's exam? I'll be in the MUDD library most of the time for the weekend, come on and join me.", author=user_4, course=course_2)
-topic_3.save()
-topic_4=Topic(title="I really like the on-time walker...", content="I'm not a member of that team, but I really like their idea. And i have a suggestion for them: make it look better!!", author=user_2, course=course_5)
-topic_4.save()
-topic_5=Topic(title="Last project was killing me!!!!", content="I just submitted the project, it spent me like 2 days. anyone has the same feeling?", author=user_5, course=course_4)
-topic_5.save()
-topic_6=Topic(title="Hartline looks so cool today!", content="He looks great in that purple suit.", author=user_3, course=course_3)
-topic_6.save()
+source_6=Source(variety="Fruit", name="Peaches")
+source_6.save()
 
 
-post_1=Post(content="Yeah, I like today's class too.", author=user_2, topic=topic_1)
-post_1.save()
-
-post_2=Post(content="I didn't get today's class at all, how could your guys like it?", author=user_1, topic=topic_1)
-post_2.save()
-
-post_3=Post(content="I hate this class!", author=user_4, topic=topic_1)
-post_3.save()
-
-post_4=Post(content="You can refer to the textbook form page 100 to 150, it explains the problem clearly", author=user_1, topic=topic_2)
-post_4.save()
-
-post_5=Post(content="I didn't get it neither...", author=user_3, topic=topic_2)
-post_5.save()
-
-post_5=Post(content="The book really helps, thank you Deborah.", author=user_4, topic=topic_2)
-post_5.save()
-
-post_6=Post(content="I will study the exam in the library too, let's do it together", author=user_2, topic=topic_3)
-post_6.save()
-
-post_7=Post(content="I don't have time... I will go to Florida....", author=user_3, topic=topic_3)
-post_7.save()
-
-post_8=Post(content="I didn't finish it yet. Can I email you a few problems I have?", author=user_2, topic=topic_5)
-post_8.save()
-
-post_9=Post(content="Yeah.. I like him so much!", author=user_4, topic=topic_6)
-post_9.save()
+recipe_1 = Recipe(name="Bavarian Hefeweizen", inote="Fruit 4lbs of Fresh Peaches", note="Loved this beer for summer and beginning fall. Rated it an 8 out of 10. Friends want to try a fruit version and suggested peach.", brewer=user_2)
+recipe_1.save()
 
 
-membership_1 = Membership(member = user_1, course = course_1)
-membership_1.save()
-
-membership_2 = Membership(member = user_2, course = course_2)
-membership_2.save()
-
-membership_3 = Membership(member = user_3, course = course_5)
-membership_3.save()
-
-membership_4 = Membership(member = user_4, course = course_4)
-membership_4.save()
-
-membership_5 = Membership(member = user_5, course = course_3)
-membership_5.save()
-
-membership_6 = Membership(member = user_2, course = course_1)
-membership_6.save()
-
-membership_7 = Membership(member = user_4, course = course_1)
-membership_7.save()
-
-membership_8 = Membership(member = user_3, course = course_2)
-membership_8.save()
-
-membership_9 = Membership(member = user_4, course = course_2)
-membership_9.save()
-
-membership_10 = Membership(member = user_4, course = course_3)
-membership_10.save()
-
-membership_11 = Membership(member = user_2, course = course_4)
-membership_11.save()
+ingredient_1=Ingredient(amount=5.5, unit="lbs", note="", source=source_1, recipe=recipe_1)
+ingredient_1.save()
+ingredient_2=Ingredient(amount=4, unit="lbs", note="", source=source_2, recipe=recipe_1)
+ingredient_2.save()
+ingredient_3=Ingredient(amount=0.0, unit="", note="", source=source_3, recipe=recipe_1)
+ingredient_3.save()
+ingredient_4=Ingredient(amount=0.75, unit="oz", note="", source=source_4, recipe=recipe_1)
+ingredient_4.save()
+ingredient_5=Ingredient(amount=0.25, unit="oz", note="", source=source_4, recipe=recipe_1)
+ingredient_5.save()
+ingredient_6=Ingredient(amount=0.5, unit="oz", note="", source=source_5, recipe=recipe_1)
+ingredient_6.save()
 
 
-courseSchedule_1 = CourseSchedule(course = course_1, start_time = datetime.time(11, 00), end_time = datetime.time(12, 20), weekday = 2)
-courseSchedule_1.save()
+procedure_1 = Procedure(title="BREWING DAY", tag="Yeast", content="Incubate Yeast ", note="", recipe = recipe_1)
+procedure_1.save()
 
-courseSchedule_2 = CourseSchedule(course = course_1, start_time = datetime.time(11, 00), end_time = datetime.time(12, 20), weekday = 4)
-courseSchedule_2.save()
+procedure_2 = Procedure(title="BREWING DAY", tag="Boil", content="2.5 gallons of Water", note="", recipe = recipe_1)
+procedure_2.save()
 
-courseSchedule_3 = CourseSchedule(course = course_2, start_time = datetime.time(11, 00), end_time = datetime.time(12, 20), weekday = 1)
-courseSchedule_3.save()
+procedure_3 = Procedure(title="BREWING DAY", tag="Mash/Grains", content="Mash for 90 minutes at 153C", note="", recipe = recipe_1)
+procedure_3.save()
 
-courseSchedule_4 = CourseSchedule(course = course_2, start_time = datetime.time(12, 00), end_time = datetime.time(12, 50), weekday = 3)
-courseSchedule_4.save()
+procedure_4 = Procedure(title="BREWING DAY", tag="Hop Boil", content="Add .75oz Hallertau at 45mins", note="", recipe = recipe_1)
+procedure_4.save()
 
-courseSchedule_5 = CourseSchedule(course = course_2, start_time = datetime.time(12, 00), end_time = datetime.time(12, 50), weekday = 5)
-courseSchedule_5.save()
+procedure_5 = Procedure(title="BREWING DAY", tag="Hop Boil 2", content="Add .25oz Hallertau at 15mins", note="remember to still the swirl the grain to help clear the beer", recipe = recipe_1)
+procedure_5.save()
 
-courseSchedule_6 = CourseSchedule(course = course_3, start_time = datetime.time(15, 30), end_time = datetime.time(16, 50), weekday = 2)
-courseSchedule_6.save()
+procedure_6 = Procedure(title="BREWING DAY", tag="Cool Wort", content="Cool Wort to 78C - 100C.", note="", recipe = recipe_1)
+procedure_6.save()
 
-courseSchedule_7 = CourseSchedule(course = course_3, start_time = datetime.time(15, 30), end_time = datetime.time(16, 50), weekday = 4)
-courseSchedule_7.save()
+procedure_7 = Procedure(title="FERMENTATION: (weeks 1-2)", tag="Fermentation", content="Ferment for 10 days at 68F. ", note="", recipe = recipe_1)
+procedure_7.save()
 
-courseSchedule_8 = CourseSchedule(course = course_4, start_time = datetime.time(16, 00), end_time = datetime.time(16, 50), weekday = 1)
-courseSchedule_8.save()
+procedure_8 = Procedure(title="FERMENTATION: (weeks 1-2)", tag="Secondary", content="No secondary fermentation.", note="add 4lbs of peaches to the secondary fermenation", recipe = recipe_1)
+procedure_8.save()
 
-courseSchedule_9 = CourseSchedule(course = course_4, start_time = datetime.time(16, 00), end_time = datetime.time(16, 50), weekday = 3)
-courseSchedule_9.save()
+procedure_9 = Procedure(title="BOTTLING DAY: (2 weeks)", tag="Bottle", content="Mix priming sugar and add to beer before bottling.", note="", recipe = recipe_1)
+procedure_9.save()
 
-courseSchedule_10 = CourseSchedule(course = course_4, start_time = datetime.time(16, 00), end_time = datetime.time(16, 50), weekday = 5)
-courseSchedule_10.save()
+procedure_10 = Procedure(title="BOTTLING DAY: (2 weeks)", tag="Condition", content="Store bottles at room temperature.", note="", recipe = recipe_1)
+procedure_10.save()
 
-courseSchedule_11 = CourseSchedule(course = course_5, start_time = datetime.time(10, 00), end_time = datetime.time(10, 50), weekday = 1)
-courseSchedule_11.save()
+procedure_11 = Procedure(title="DRINK: (2 weeks)", tag="Enjoy", content="Beer ready to serve.", note="", recipe = recipe_1)
+procedure_11.save()
 
-courseSchedule_12 = CourseSchedule(course = course_5, start_time = datetime.time(10, 00), end_time = datetime.time(10, 50), weekday = 3)
-courseSchedule_12.save()
 
-courseSchedule_13 = CourseSchedule(course = course_5, start_time = datetime.time(10, 00), end_time = datetime.time(10, 50), weekday = 5)
-courseSchedule_13.save()
 
