@@ -10,7 +10,7 @@ admin = User.objects.create_user(username="admin", email="noreply@micbase.com", 
 admin.save()
 
 user_1 = User.objects.create_user(username="farquharson", email="farquharsonWWW@gmail.com", password="purpleTeam",
-    first_name="Deborah", last_name="Farquharson")
+    first_name="Scott", last_name="Farquharson")
 user_1.save()
 
 

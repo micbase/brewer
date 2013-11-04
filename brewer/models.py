@@ -51,7 +51,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe)
     source = models.ForeignKey(Source)
-    amount=models.FloatField(default=0.0)
+    amount=models.FloatField(default=''， blank=True)
     unit = models.CharField(
         max_length=20,
         default='',
