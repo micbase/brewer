@@ -5,20 +5,31 @@ from django.views.generic import (
     CreateView,
     ListView,
     TemplateView,
+    FormView,
 )
 
 from auth.views import LoginRequiredMixin
 import brewer as brewer_constants
-from brewer.forms import CreateTopicForm
-from brewer.models import (
-    Course,
-    CourseSchedule,
-    Membership,
-    Post,
-    Topic,
+from brewer.forms import (
+       # CreateTopicForm,
+        RecipeForm,
+        IngredientForm,
+        ProcedureForm,
 )
 
+from brewer.models import (
+   # Course,
+    #CourseSchedule,
+   # Membership,
+   # Post,
+   # Topic,
 
+    Recipe,
+    Ingredient,
+    Procedure,
+    Source,
+)
+"""
 class CourseView(ListView):
     template_name = 'brewer/courses.html'
     paginate_by = 20
@@ -51,7 +62,6 @@ class UserProfileView(LoginRequiredMixin, ListView):
             member=users
         )
 
-
 class CreateTopicView(LoginRequiredMixin, CreateView):
     template_name = 'brewer/create_topic.html'
     model = Topic
@@ -70,32 +80,88 @@ class CreateTopicView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateTopicView, self).get_context_data(**kwargs)
         context['course_id'] = self.kwargs['course_id']
-        return context
+        return context"""
 
-
-class RecipeView(TemplateView):
+class RecipeView(FormView):
     template_name = 'brewer/recipe.html'
+    form_class = RecipeForm
+    ##ingredient_form_class = IngredientForm
+    ##procedure_form_class = ProcedureForm
 
-    def get_course(self):
-        course_id = self.kwargs['course_id']
-        return get_object_or_404(Course, pk=course_id)
+    def get_recipe(self):
+        recipe_id = self.kwargs['recipe_id']
+        return get_object_or_404(Recipe, pk=recipe_id)
 
-    def is_course_joined(self):
-        course_id = self.kwargs['course_id']
-        user = self.request.user
-        if user.is_authenticated():
-            count = Membership.objects.filter(
-                member=user,
-                course_id=course_id,
-                status=brewer_constants.ENROLL_COURSE
-            ).count()
-            return count >= 1
-        else:
-            return False
+    def get_note(self):
+        recipe = self.get_recipe()
+        return recipe.note
+
+    def get_success_url(self):
+        return '/recipe/' + self.kwargs['recipe_id']
+
+    def get_form_kwargs(self):
+        kwargs = super(RecipeView, self).get_form_kwargs()
+        kwargs['recipe_id'] = self.kwargs['recipe_id']
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(RecipeView, self).get_context_data(**kwargs)
         #context['course'] = self.get_course()
         #context['course_joined'] = self.is_course_joined()
-        context['recipe'] = Course.objects.get(pk=self.kwargs['recipe_id'])
+        context['recipe'] = Recipe.objects.get(pk=self.kwargs['recipe_id'])
+        context['note'] = self.get_note()
+       # context['ingredient'] = Ingredient.objects.get(pk=self.kwargs['recipe_id'])
+       # context['procedure'] = Procedure.objects.get(pk=self.kwargs['recipe_id'])
+        return context
+
+class IngredientView(FormView):
+    template_name = 'brewer/recipe.html'
+    form_class = IngredientForm
+
+    def get_ingredient(self):
+        ingredient_id = self.kwargs['ingredient_id']
+        return get_object_or_404(Ingredient, pk=ingredient_id)
+
+    def get_note(self):
+        ingredient = self.get_ingredient()
+        return ingredient.note
+
+    def get_success_url(self):
+        return '/recipe/' + self.kwargs['recipe_id']
+
+    def get_form_kwargs(self):
+        kwargs = super(IngredientView, self).get_form_kwargs()
+        kwargs['ingredient_id'] = self.kwargs['ingredient_id']
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(IngredientView, self).get_context_data(**kwargs)
+        context['ingredient'] = Ingredient.objects.get(pk=self.kwargs['ingredient_id'])
+        context['note'] = self.get_note()
+        return context
+
+class ProcedureView(FormView):
+    template_name = 'brewer/recipe.html'
+    form_class = ProcedureForm
+
+    def get_procedure(self):
+        procedure_id = self.kwargs['procedure_id']
+        return get_object_or_404(Procedure, pk=procedure_id)
+
+    def get_note(self):
+        procedure = self.get_procedure()
+        return procedure.note
+
+    def get_success_url(self):
+        return '/recipe/' + self.kwargs['recipe_id']
+
+    def get_form_kwargs(self):
+        kwargs = super(IngredientView, self).get_form_kwargs()
+        kwargs['procedure_id'] = self.kwargs['procedure_id']
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(ProcedureView, self).get_context_data(**kwargs)
+        context['procedure'] = Procedure.objects.get(pk=self.kwargs['procedure_id'])
+        context['note'] = self.get_note()
         return context
