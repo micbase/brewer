@@ -20,6 +20,9 @@
         % for item in ingredient:
         <li>
         <p id="ingredient_tag_${item.id}" class="ingredient">${item.source.name}</p>
+        % if item.note:
+            <div id="ingredient_note_${item.id}" class="ingredient_note alert alert-warning">${item.note}</div>
+        % endif
         <div id="ingredient_form_${item.id}" class="ingredient_form form-group">
             <div class="input-group">
                 <input id="ingredient_note_input_${item.id}" type="text" class="form-control" value="Note">
@@ -36,6 +39,9 @@
         % for item in procedure:
         <li>
         <p id="procedure_tag_${item.id}" class="procedure">${item.content}</p>
+        % if item.note:
+            <div id="procedure_note_${item.id}" class="procedure_note alert alert-warning">${item.note}</div>
+        % endif
         <div id="procedure_form_${item.id}" class="procedure_form form-group">
             <div class="input-group">
                 <input id="procedure_note_input_${item.id}" type="text" class="form-control" value="Note">
@@ -47,5 +53,19 @@
         </li>
         % endfor
     </ol>
+    <h3>Comment</h3>
+    % if recipe.note:
+        <div id="recipe_note_${recipe.id}" class="recipe_note alert alert-warning">${recipe.note}</div>
+    % else:
+    <button id="recipe_tag_${recipe.id}" class="recipe btn btn-default col-xs-12">Add Comment</button>
+    % endif
+    <div id="recipe_form_${recipe.id}" class="recipe_form form-group">
+        <div class="input-group">
+            <input id="recipe_note_input_${recipe.id}" type="text" class="form-control" value="Note">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="save_recipe_note(${recipe.id});">Save</button>
+            </span>
+        </div>
+    </div>
 
 </div>
