@@ -17,47 +17,35 @@
     <hr>
     <h3>Ingredients</h3>
     <ul>
+        % for item in ingredient:
         <li>
-        <p id="ingredient_tag_1" class="ingredient">Milk</p>
-        <div id="ingredient_form_1" class="ingredient_form form-group">
+        <p id="ingredient_tag_${item.id}" class="ingredient">${item.source.name}</p>
+        <div id="ingredient_form_${item.id}" class="ingredient_form form-group">
             <div class="input-group">
-                <input id="ingredient_note_input_1" type="text" class="form-control" value="Note">
+                <input id="ingredient_note_input_${item.id}" type="text" class="form-control" value="Note">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(1);">Save</button>
+                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(${item.id});">Save</button>
                 </span>
             </div>
         </div>
         </li>
-        <li>
-        <p id="ingredient_tag_2" class="ingredient">Coffee</p>
-        <div id="ingredient_note_2" class="ingredient_note alert alert-warning">Note</div>
-        <div id="ingredient_form_2" class="ingredient_form form-group">
-            <div class="input-group">
-                <input id="ingredient_note_input_2" type="text" class="form-control" value="Note">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(2);">Save</button>
-                </span>
-            </div>
-        </div>
-        </li>
-        <li>
-        <p id="ingredient_tag_3" class="ingredient">Coffee</p>
-        <div id="ingredient_note_3" class="ingredient_note alert alert-warning">Note</div>
-        <div id="ingredient_form_3" class="ingredient_form form-group">
-            <div class="input-group">
-                <input id="ingredient_note_input_3" type="text" class="form-control" value="Note">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="save_ingredient_note(3);">Save</button>
-                </span>
-            </div>
-        </div>
-        </li>
+        % endfor
     </ul>
     <h3>Procedures</h3>
     <ol>
+        % for item in procedure:
         <li>
-        Coffee
+        <p id="procedure_tag_${item.id}" class="procedure">${item.content}</p>
+        <div id="procedure_form_${item.id}" class="procedure_form form-group">
+            <div class="input-group">
+                <input id="procedure_note_input_${item.id}" type="text" class="form-control" value="Note">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="save_procedure_note(${item.id});">Save</button>
+                </span>
+            </div>
+        </div>
         </li>
+        % endfor
     </ol>
 
 </div>

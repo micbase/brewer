@@ -23,6 +23,7 @@ function save_ingredient_note(id) {
 }
 
 $(".ingredient_form").hide();
+$(".procedure_form").hide();
 
 $(document).ready(function(){
     $(document).on('click', '.ingredient_note', function() {

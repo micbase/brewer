@@ -40,6 +40,7 @@ class Recipe(models.Model):
         default='',
         blank=True,
     )
+    
     created = models.DateTimeField(auto_now_add=True)
     changed = models.DateTimeField(auto_now=True)    
     def __unicode__(self):

@@ -1,5 +1,8 @@
 
+import json
+
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
     CreateView,
@@ -11,90 +14,67 @@ from django.views.generic import (
 from auth.views import LoginRequiredMixin
 import brewer as brewer_constants
 from brewer.forms import (
-       # CreateTopicForm,
-        RecipeForm,
-        IngredientForm,
-        ProcedureForm,
+    IngredientForm,
+    ProcedureForm,
+    RecipeForm,
 )
 
 from brewer.models import (
-   # Course,
-    #CourseSchedule,
-   # Membership,
-   # Post,
-   # Topic,
-
-    Recipe,
     Ingredient,
     Procedure,
     Source,
+    Recipe,
 )
-"""
-class CourseView(ListView):
-    template_name = 'brewer/courses.html'
-    paginate_by = 20
-
-    def get_queryset(self):
-        course_name = self.request.GET.get("course_name", "")
-        return Course.objects.filter(
-            name__icontains=course_name,
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super(CourseView, self).get_context_data(**kwargs)
-        context['course_name'] = self.request.GET.get("course_name", "")
-        return context
 
 
-class UserProfileView(LoginRequiredMixin, ListView):
-    template_name = 'brewer/user_profile.html'
-    paginate_by = 20
+class JSONResponseMixin(object):
+    def render_to_response(self, context):
+        "Returns a JSON response containing 'context' as payload"
+        return self.get_json_response(self.convert_context_to_json(context))
 
-    def get_queryset(self):
-        users = self.request.user
-        return Course.objects.filter(
-            students=users
-        )
+    def get_json_response(self, content, **httpresponse_kwargs):
+        "Construct an `HttpResponse` object."
+        return HttpResponse(content,
+                                 content_type='application/json',
+                                 **httpresponse_kwargs)
 
-    def get_membership(self):
-        users = self.request.user
-        return Membership.objects.filter(
-            member=users
-        )
+    def convert_context_to_json(self, context):
+        "Convert the context dictionary into a JSON object"
+        # Note: This is *EXTREMELY* naive; in reality, you'll need
+        # to do much more complex handling to ensure that arbitrary
+        # objects -- such as Django model instances or querysets
+        # -- can be serialized as JSON.
+        return json.dumps(context)
 
-class CreateTopicView(LoginRequiredMixin, CreateView):
-    template_name = 'brewer/create_topic.html'
-    model = Topic
-    form_class = CreateTopicForm
 
-    def get_success_url(self):
-        return '/topics/' + self.kwargs['course_id']
-
-    def get_form_kwargs(self):
-        kwargs = super(CreateTopicView, self).get_form_kwargs()
-        course_id = self.kwargs['course_id']
-        kwargs['course'] = get_object_or_404(Course, pk=course_id)
-        kwargs['author'] = self.request.user
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateTopicView, self).get_context_data(**kwargs)
-        context['course_id'] = self.kwargs['course_id']
-        return context"""
-
-class RepcipeView(TemplateView):
+class RecipeView(TemplateView):
     template_name = 'brewer/recipe.html'
+
+    def get_recipe(self):
+        recipe_id = self.kwargs['recipe_id']
+        return get_object_or_404(Recipe, pk=recipe_id)
+
+    def get_ingredient(self):
+        recipe_id = self.kwargs['recipe_id']
+        return Ingredient.objects.filter(recipe_id=recipe_id)
+
+    def get_procedure(self):
+        recipe_id = self.kwargs['recipe_id']
+        return Procedure.objects.filter(recipe_id=recipe_id)
 
     def get_context_data(self, **kwargs):
         context = super(RecipeView, self).get_context_data(**kwargs)
-        context['recipe_id'] = self.kwargs['recipe_id']
+        context['recipe'] = self.get_recipe()
+        context['ingredient'] = self.get_ingredient()
+        context['procedure'] = self.get_procedure()
         return context
 
-class RecipeNoteView(FormView):
-    template_name = 'brewer/recipe.html'
+class RecipeNoteView(JSONResponseMixin, FormView):
     form_class = RecipeForm
-    ##ingredient_form_class = IngredientForm
-    ##procedure_form_class = ProcedureForm
+
+    def form_valid(self, form):
+        form.save()
+        return self.render_to_response({'success': True})
 
     def get_recipe(self):
         recipe_id = self.kwargs['recipe_id']
@@ -104,22 +84,15 @@ class RecipeNoteView(FormView):
         recipe = self.get_recipe()
         return recipe.note
 
-    def get_success_url(self):
-        return '/recipe/' + self.kwargs['recipe_id']
-
     def get_form_kwargs(self):
-        kwargs = super(RecipeView, self).get_form_kwargs()
+        kwargs = super(RecipeNoteView, self).get_form_kwargs()
         kwargs['recipe_id'] = self.kwargs['recipe_id']
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(RecipeView, self).get_context_data(**kwargs)
-        #context['course'] = self.get_course()
-        #context['course_joined'] = self.is_course_joined()
-        context['recipe'] = Recipe.objects.get(pk=self.kwargs['recipe_id'])
+        #context = super(RecipeNoteView, self).get_context_data(**kwargs)
+        context = {}
         context['note'] = self.get_note()
-       # context['ingredient'] = Ingredient.objects.get(pk=self.kwargs['recipe_id'])
-       # context['procedure'] = Procedure.objects.get(pk=self.kwargs['recipe_id'])
         return context
 
 class IngredientNoteView(FormView):
@@ -173,3 +146,5 @@ class ProcedureNoteView(FormView):
         context['procedure'] = Procedure.objects.get(pk=self.kwargs['procedure_id'])
         context['note'] = self.get_note()
         return context
+
+
