@@ -2,6 +2,10 @@ from django import forms
 from brewer.models import Source, Recipe, Ingredient, Procedure
 
 class RecipeForm(forms.Form):
+    def __init__(self, recipe_id, *args, **kwargs):
+        super(RecipeForm, self).__init__(*args, **kwargs)
+        self.recipe_id = recipe_id
+
     def save(self):
         recipe = Recipe.objects.get(pk=self.recipe_id)
         recipe.note = self.cleaned_data['note']
@@ -9,8 +13,6 @@ class RecipeForm(forms.Form):
         return recipe
 
     class Meta:
-        model = Recipe
-        exclude = ['name','inote','created','changed']
         widgets = {
                 'note': forms.Textarea(attrs={
                     'class':'form-control',

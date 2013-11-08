@@ -82,7 +82,15 @@ class CreateTopicView(LoginRequiredMixin, CreateView):
         context['course_id'] = self.kwargs['course_id']
         return context"""
 
-class RecipeView(FormView):
+class RepcipeView(TemplateView):
+    template_name = 'brewer/recipe.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipeView, self).get_context_data(**kwargs)
+        context['recipe_id'] = self.kwargs['recipe_id']
+        return context
+
+class RecipeNoteView(FormView):
     template_name = 'brewer/recipe.html'
     form_class = RecipeForm
     ##ingredient_form_class = IngredientForm
@@ -114,7 +122,7 @@ class RecipeView(FormView):
        # context['procedure'] = Procedure.objects.get(pk=self.kwargs['recipe_id'])
         return context
 
-class IngredientView(FormView):
+class IngredientNoteView(FormView):
     template_name = 'brewer/recipe.html'
     form_class = IngredientForm
 
@@ -140,7 +148,7 @@ class IngredientView(FormView):
         context['note'] = self.get_note()
         return context
 
-class ProcedureView(FormView):
+class ProcedureNoteView(FormView):
     template_name = 'brewer/recipe.html'
     form_class = ProcedureForm
 
