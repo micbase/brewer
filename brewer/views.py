@@ -5,14 +5,11 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
-    CreateView,
-    ListView,
     TemplateView,
     FormView,
 )
 
 from auth.views import LoginRequiredMixin
-import brewer as brewer_constants
 from brewer.forms import (
     IngredientForm,
     ProcedureForm,
@@ -22,7 +19,6 @@ from brewer.forms import (
 from brewer.models import (
     Ingredient,
     Procedure,
-    Source,
     Recipe,
 )
 
@@ -69,6 +65,7 @@ class RecipeView(TemplateView):
         context['procedure'] = self.get_procedure()
         return context
 
+
 class RecipeNoteView(JSONResponseMixin, FormView):
     form_class = RecipeForm
 
@@ -90,14 +87,17 @@ class RecipeNoteView(JSONResponseMixin, FormView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        #context = super(RecipeNoteView, self).get_context_data(**kwargs)
         context = {}
         context['note'] = self.get_note()
         return context
 
-class IngredientNoteView(FormView):
-    template_name = 'brewer/recipe.html'
+
+class IngredientNoteView(JSONResponseMixin, FormView):
     form_class = IngredientForm
+
+    def form_valid(self, form):
+        form.save()
+        return self.render_to_response({'success': True})
 
     def get_ingredient(self):
         ingredient_id = self.kwargs['ingredient_id']
@@ -107,23 +107,23 @@ class IngredientNoteView(FormView):
         ingredient = self.get_ingredient()
         return ingredient.note
 
-    def get_success_url(self):
-        return '/recipe/' + self.kwargs['recipe_id']
-
     def get_form_kwargs(self):
-        kwargs = super(IngredientView, self).get_form_kwargs()
+        kwargs = super(IngredientNoteView, self).get_form_kwargs()
         kwargs['ingredient_id'] = self.kwargs['ingredient_id']
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(IngredientView, self).get_context_data(**kwargs)
-        context['ingredient'] = Ingredient.objects.get(pk=self.kwargs['ingredient_id'])
+        context = {}
         context['note'] = self.get_note()
         return context
 
-class ProcedureNoteView(FormView):
-    template_name = 'brewer/recipe.html'
+
+class ProcedureNoteView(JSONResponseMixin, FormView):
     form_class = ProcedureForm
+
+    def form_valid(self, form):
+        form.save()
+        return self.render_to_response({'success': True})
 
     def get_procedure(self):
         procedure_id = self.kwargs['procedure_id']
@@ -133,18 +133,12 @@ class ProcedureNoteView(FormView):
         procedure = self.get_procedure()
         return procedure.note
 
-    def get_success_url(self):
-        return '/recipe/' + self.kwargs['recipe_id']
-
     def get_form_kwargs(self):
-        kwargs = super(IngredientView, self).get_form_kwargs()
+        kwargs = super(ProcedureNoteView, self).get_form_kwargs()
         kwargs['procedure_id'] = self.kwargs['procedure_id']
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(ProcedureView, self).get_context_data(**kwargs)
-        context['procedure'] = Procedure.objects.get(pk=self.kwargs['procedure_id'])
+        context = {}
         context['note'] = self.get_note()
         return context
-
-

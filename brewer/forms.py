@@ -1,5 +1,6 @@
 from django import forms
-from brewer.models import Source, Recipe, Ingredient, Procedure
+from brewer.models import Recipe, Ingredient, Procedure
+
 
 class RecipeForm(forms.Form):
     note = forms.CharField()
@@ -23,7 +24,7 @@ class IngredientForm(forms.Form):
         self.ingredient_id = ingredient_id
 
     def save(self):
-        ingredient = Ingredient.objects.get(pk=self.recipe_id)
+        ingredient = Ingredient.objects.get(pk=self.ingredient_id)
         ingredient.note = self.cleaned_data['note']
         ingredient.save()
         return ingredient
@@ -37,7 +38,7 @@ class ProcedureForm(forms.Form):
         self.procedure_id = procedure_id
 
     def save(self):
-        procedure = Procedure.objects.get(pk=self.recipe_id)
+        procedure = Procedure.objects.get(pk=self.procedure_id)
         procedure.note = self.cleaned_data['note']
         procedure.save()
         return procedure
