@@ -56,7 +56,7 @@ class RecipeView(TemplateView):
 
     def get_procedure(self):
         recipe_id = self.kwargs['recipe_id']
-        return Procedure.objects.filter(recipe_id=recipe_id)
+        return Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super(RecipeView, self).get_context_data(**kwargs)
