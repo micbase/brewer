@@ -18,7 +18,7 @@
     <ul>
         % for item in ingredient:
         <li>
-        <p id="ingredient_tag_${item.id}" class="ingredient">${item.source.variety}: 
+        <p id="ingredient_tag_${item.id}" class="ingredient"><strong>${item.source.variety}: </strong>
         % if item.amount:
             ${item.amount} 
         %else:
@@ -43,7 +43,7 @@
     <ol>
         % for item in procedure:
         <li>
-        <p id="procedure_tag_${item.id}" class="procedure">${item.content}</p>
+        <p id="procedure_tag_${item.id}" class="procedure"><strong class="text-danger">${item.tag}: </strong>${item.content}</p>
         % if item.note:
             <div id="procedure_note_${item.id}" class="procedure_note alert alert-warning">${item.note}</div>
         % endif
