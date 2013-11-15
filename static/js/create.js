@@ -86,7 +86,12 @@ $(function() {
             procedure_tag: all_tag,
             procedure_content: all_content
         }, function(data) {
-            alert(data);
+            if (data.success) {
+                window.location.href = data.redirect;
+            }
+            else {
+                alert("Input Error");
+            }
         });
 
     });

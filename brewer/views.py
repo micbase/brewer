@@ -144,19 +144,21 @@ class ProcedureNoteView(JSONResponseMixin, FormView):
         context['note'] = self.get_note()
         return context
 
+
 class CreateRecipeView(FormView):
     template_name = 'brewer/create_recipe.html'
     form_class = CreateRecipeForm
-    recipe_id = 0
 
     def form_valid(self, form):
-        self.recipe_id = form.save()
-        return super(CreateRecipeView, self).form_valid(form)
+        recipe_id = form.save()
+        json_data = json.dumps({
+            'success': True,
+            'redirect': '/recipe/' + str(recipe_id)
+        })
+        return HttpResponse(
+            json_data,
+            content_type='application/json',
+        )
 
     def get_success_url(self):
-       return '/recipe/' + str(self.recipe_id)
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateRecipeView, self).get_context_data(**kwargs)
-        #import pdb; pdb.trace();
-        return context
+        return '/recipe/' + str(self.recipe_id)
