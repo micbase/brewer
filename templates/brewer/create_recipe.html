@@ -27,7 +27,7 @@
         i = 1;
         $("#id_add_it_procedure_btn").click(function(){
 
-        $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><span>Title</span><input name="titlename" id="titlename_'+i+'" type="text" maxLength="20" value=""/></li><li ><span>Tag&nbsp;</span><input name="tag" id="tag_'+i+'" type="text" maxLength="10" value=""/></li><li ><span>content&nbsp;&nbsp;&nbsp;</span><textarea name="content" id="content_'+i+'" cols="30" rows="4"></textarea></li></ul></div>');
+        $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><span>Title</span><input name="titlename" id="titlename_'+i+'" type="text" maxLength="20" value=""/></li><li ><span>Tag&nbsp;</span><input name="tag" id="tag_'+i+'" type="text" maxLength="10" value=""/></li><li ><span>content&nbsp;&nbsp;&nbsp;</span><input name="content" id="content_'+i+'"  type="text" maxLength="30" value=""/></li></ul></div>');
                 i = i+1;
          });
       
@@ -116,7 +116,7 @@
                             <ul class="cf">
                                 <li class="vf">
                                     <span>Content</span>
-                                    <textarea name="content" id="content_0" cols="30" rows="4"></textarea>
+                                    <input name="content" id="content_0" type="text" maxLength="30" value=""/>
                                 </li>
                             </ul> 
                             <!--                               
