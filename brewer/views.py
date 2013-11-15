@@ -142,3 +142,14 @@ class ProcedureNoteView(JSONResponseMixin, FormView):
         context = {}
         context['note'] = self.get_note()
         return context
+
+
+class CreateRecipeView(TemplateView):
+    template_name = 'brewer/create_recipe.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateRecipeView, self).get_context_data(**kwargs)
+
+        return context
+
