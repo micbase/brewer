@@ -10,7 +10,6 @@ urlpatterns = patterns('',
 
     url(r'^recipe/(?P<recipe_id>\d+)$', brewer.views.RecipeView.as_view(), name='recipe'),
     url(r'^create_recipe$', brewer.views.CreateRecipeView.as_view(), name='create_recipe'),
-    url(r'^create$', brewer.views.CreateView.as_view(), name='create'),
     url(r'^recipe_note/(?P<recipe_id>\d+)$', brewer.views.RecipeNoteView.as_view(), name='recipe_note'),
     url(r'^ingredient_note/(?P<ingredient_id>\d+)$', brewer.views.IngredientNoteView.as_view(), name='ingredient_note'),
     url(r'^procedure_note/(?P<procedure_id>\d+)$', brewer.views.ProcedureNoteView.as_view(), name='procedure_note'),
