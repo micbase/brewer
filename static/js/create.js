@@ -83,8 +83,8 @@ $(function() {
             amount: all_amount,
             unit: all_unit,
             procedure_title: all_title,
-            precedure_tag: all_tag,
-            precedure_content: all_content
+            procedure_tag: all_tag,
+            procedure_content: all_content
         }, function(data) {
             alert(data);
         });

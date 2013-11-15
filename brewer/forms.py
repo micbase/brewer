@@ -1,5 +1,5 @@
 from django import forms
-from brewer.models import Recipe, Ingredient, Procedure
+from brewer.models import Recipe, Ingredient, Procedure, Source
 
 
 class RecipeForm(forms.Form):
@@ -42,6 +42,7 @@ class ProcedureForm(forms.Form):
         procedure.note = self.cleaned_data['note']
         procedure.save()
         return procedure
+
 
 class CreateRecipeForm(forms.Form):
     recipe_name = forms.CharField(required=True)
@@ -95,6 +96,8 @@ class CreateRecipeForm(forms.Form):
         if e != f or e != g:
             return forms.ValidationError('error')
 
+        return self.cleaned_data
+
     def save(self):
         recipe_name = self.cleaned_data['recipe_name']
         source_name = self.cleaned_data['source_name']
@@ -105,11 +108,14 @@ class CreateRecipeForm(forms.Form):
         procedure_tag = self.cleaned_data['procedure_tag']
         procedure_content = self.cleaned_data['procedure_content']
 
-        new_recipe = Recipe(name=recipe_name)
+        new_recipe = Recipe(
+            name=recipe_name,
+            brewer_id=1,
+        )
         new_recipe.save()
 
         for i in range(len(source_name)):
-            new_source = Source.get_or_create(
+            new_source, created = Source.objects.get_or_create(
                             variety=source_variety[i],
                             name=source_name[i]
                             )
