@@ -83,13 +83,16 @@ class CreateRecipeForm(forms.Form):
         return procedure_content.split(',')
 
     def clean(self):
-        a = len(self.cleaned_data['source_name'])
-        b = len(self.cleaned_data['source_variety'])
-        c = len(self.cleaned_data['amount'])
-        d = len(self.cleaned_data['unit'])
-        e = len(self.cleaned_data['procedure_title'])
-        f = len(self.cleaned_data['procedure_tag'])
-        g = len(self.cleaned_data['procedure_content'])
+        try:
+            a = len(self.cleaned_data['source_name'])
+            b = len(self.cleaned_data['source_variety'])
+            c = len(self.cleaned_data['amount'])
+            d = len(self.cleaned_data['unit'])
+            e = len(self.cleaned_data['procedure_title'])
+            f = len(self.cleaned_data['procedure_tag'])
+            g = len(self.cleaned_data['procedure_content'])
+        except KeyError:
+            return forms.ValidationError('error')
 
         if a != b or a != c or a != d:
             return forms.ValidationError('error')
