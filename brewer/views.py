@@ -11,6 +11,7 @@ from django.views.generic import (
 
 from auth.views import LoginRequiredMixin
 from brewer.forms import (
+    CreateRecipeForm,
     IngredientForm,
     ProcedureForm,
     RecipeForm,
@@ -143,13 +144,19 @@ class ProcedureNoteView(JSONResponseMixin, FormView):
         context['note'] = self.get_note()
         return context
 
-
-class CreateRecipeView(TemplateView):
+class CreateRecipeView(FormView):
     template_name = 'brewer/create_recipe.html'
+    form_class = CreateRecipeForm
+    recipe_id = 0
 
+    def form_valid(self, form):
+        self.recipe_id = form.save()
+        return super(CreateRecipeView, self).form_valid(form)
+
+    def get_success_url(self):
+       return '/recipe/' + str(self.recipe_id)
 
     def get_context_data(self, **kwargs):
         context = super(CreateRecipeView, self).get_context_data(**kwargs)
-
+        #import pdb; pdb.trace();
         return context
-

@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^recipe_note/(?P<recipe_id>\d+)$', brewer.views.RecipeNoteView.as_view(), name='recipe_note'),
     url(r'^ingredient_note/(?P<ingredient_id>\d+)$', brewer.views.IngredientNoteView.as_view(), name='ingredient_note'),
     url(r'^procedure_note/(?P<procedure_id>\d+)$', brewer.views.ProcedureNoteView.as_view(), name='procedure_note'),
+    url(r'^create_recipe$', brewer.views.CreateRecipeView.as_view(), name='create_recipe'),
 
     url(r'^login$', auth.views.LoginView.as_view(), name='login'),
     url(r'^logout$', auth.views.LogoutView.as_view(), name='logout'),

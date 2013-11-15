@@ -42,3 +42,94 @@ class ProcedureForm(forms.Form):
         procedure.note = self.cleaned_data['note']
         procedure.save()
         return procedure
+
+class CreateRecipeForm(forms.Form):
+    recipe_name = forms.CharField(required=True)
+    source_name = forms.CharField(required=True)
+    source_variety = forms.CharField(required=True)
+    amount = forms.CharField(required=True)
+    unit = forms.CharField(required=True)
+    procedure_title = forms.CharField(required=True)
+    procedure_tag = forms.CharField(required=True)
+    procedure_content = forms.CharField(required=True)
+
+    def clean_source_variety(self):
+        source_variety = self.cleaned_data['source_variety']
+        return source_variety.split(',')
+
+    def clean_source_name(self):
+        source_name = self.cleaned_data['source_name']
+        return source_name.split(',')
+
+    def clean_amount(self):
+        amount = self.cleaned_data['amount']
+        return amount.split(',')
+
+    def clean_unit(self):
+        unit = self.cleaned_data['unit']
+        return unit.split(',')
+
+    def clean_procedure_title(self):
+        procedure_title = self.cleaned_data['procedure_title']
+        return procedure_title.split(',')
+
+    def clean_procedure_tag(self):
+        procedure_tag = self.cleaned_data['procedure_tag']
+        return procedure_tag.split(',')
+
+    def clean_procedure_content(self):
+        procedure_content = self.cleaned_data['procedure_content']
+        return procedure_content.split(',')
+
+    def clean(self):
+        a = len(self.cleaned_data['source_name'])
+        b = len(self.cleaned_data['source_variety'])
+        c = len(self.cleaned_data['amount'])
+        d = len(self.cleaned_data['unit'])
+        e = len(self.cleaned_data['procedure_title'])
+        f = len(self.cleaned_data['procedure_tag'])
+        g = len(self.cleaned_data['procedure_content'])
+
+        if a != b or a != c or a != d:
+            return forms.ValidationError('error')
+        if e != f or e != g:
+            return forms.ValidationError('error')
+
+    def save(self):
+        recipe_name = self.cleaned_data['recipe_name']
+        source_name = self.cleaned_data['source_name']
+        source_variety = self.cleaned_data['source_variety']
+        ingredient_amount = self.cleaned_data['amount']
+        ingredient_unit = self.cleaned_data['unit']
+        procedure_title = self.cleaned_data['procedure_title']
+        procedure_tag = self.cleaned_data['procedure_tag']
+        procedure_content = self.cleaned_data['procedure_content']
+
+        new_recipe = Recipe(name=recipe_name)
+        new_recipe.save()
+
+        for i in range(len(source_name)):
+            new_source = Source.get_or_create(
+                            variety=source_variety[i],
+                            name=source_name[i]
+                            )
+            new_source.save()
+
+            new_ingredient = Ingredient(
+                                recipe=new_recipe,
+                                source=new_source,
+                                amount=ingredient_amount[i],
+                                unit=ingredient_unit[i],
+                                )
+            new_ingredient.save()
+
+        for i in range(len(procedure_title)):
+            new_procedure = Procedure(
+                                recipe=new_recipe,
+                                title=procedure_title[i],
+                                tag=procedure_tag[i],
+                                content=procedure_content[i],
+                                )
+            new_procedure.save()
+
+        return new_recipe.id
