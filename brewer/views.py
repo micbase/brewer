@@ -1,7 +1,6 @@
 
 import json
 
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
@@ -145,9 +144,14 @@ class ProcedureNoteView(JSONResponseMixin, FormView):
         return context
 
 
-class CreateRecipeView(FormView):
+class CreateRecipeView(LoginRequiredMixin, FormView):
     template_name = 'brewer/create_recipe.html'
     form_class = CreateRecipeForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateRecipeView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         recipe_id = form.save()

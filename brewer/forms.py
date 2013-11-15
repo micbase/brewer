@@ -54,6 +54,10 @@ class CreateRecipeForm(forms.Form):
     procedure_tag = forms.CharField(required=True)
     procedure_content = forms.CharField(required=True)
 
+    def __init__(self, user, *args, **kwargs):
+        super(CreateRecipeForm, self).__init__(*args, **kwargs)
+        self.user = user
+
     def clean_source_variety(self):
         source_variety = self.cleaned_data['source_variety']
         return source_variety.split(',')
@@ -113,7 +117,7 @@ class CreateRecipeForm(forms.Form):
 
         new_recipe = Recipe(
             name=recipe_name,
-            brewer_id=1,
+            brewer=self.user,
         )
         new_recipe.save()
 
