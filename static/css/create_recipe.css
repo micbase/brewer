@@ -3,11 +3,7 @@
   margin-top: 60px;
   border: 1px solid #e7e7e7;
 }
-.recipe .content .preview {
-  float: right;
-  font-size: 14px;
-  margin-top: 20px;
-}
+
 .recipe .labelBar-2 {
   border-top: 1px solid #e7e7e7;
   border-bottom: 1px solid #e7e7e7;
@@ -39,17 +35,6 @@
   float: left;
   text-align: right;
   width: 70px;
-}
-.recipe .add-info {
-  border: none;
-  width: 154px;
-  height: 36px;
-  margin-bottom: 10px;
-  padding-left: 44px;
-  text-align: left;
-  font-size: 14px;
-  color: #565656;
-  background: url(../img/btn/add-info.gif) no-repeat;
 }
 
 .recipe h2{

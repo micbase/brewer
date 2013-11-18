@@ -1,7 +1,6 @@
 
 import json
 
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
@@ -11,6 +10,7 @@ from django.views.generic import (
 
 from auth.views import LoginRequiredMixin
 from brewer.forms import (
+    CreateRecipeForm,
     IngredientForm,
     ProcedureForm,
     RecipeForm,
@@ -144,12 +144,25 @@ class ProcedureNoteView(JSONResponseMixin, FormView):
         return context
 
 
-class CreateRecipeView(TemplateView):
+class CreateRecipeView(LoginRequiredMixin, FormView):
     template_name = 'brewer/create_recipe.html'
+    form_class = CreateRecipeForm
 
+    def get_form_kwargs(self):
+        kwargs = super(CreateRecipeView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-    def get_context_data(self, **kwargs):
-        context = super(CreateRecipeView, self).get_context_data(**kwargs)
+    def form_valid(self, form):
+        recipe_id = form.save()
+        json_data = json.dumps({
+            'success': True,
+            'redirect': '/recipe/' + str(recipe_id)
+        })
+        return HttpResponse(
+            json_data,
+            content_type='application/json',
+        )
 
-        return context
-
+    def get_success_url(self):
+        return '/recipe/' + str(self.recipe_id)
