@@ -175,7 +175,7 @@
 .vita-2 label,.vita-2 .label {float:left; width:100px; line-height: 27px; text-align: right;}
 .vita-2 .addG{font-style: normal; color: #898989;}
 .vita-2 .ness{color: #ff0000; margin-right: 2px;}
-.vita-2 input{border:1px solid #CECECE; padding: 5px 2px; width: 200px; margin-right: 5px;}
+.vita-2 input{border:1px solid #CECECE; padding: 5px 2px; width: 100%; margin-right: 5px;}
 .vita-2 .iptErr{border-color:#fc0202 !important;}
 .vita-2 textarea{border: 1px solid #CECECE; display: block; width:555px; padding: 5px 2px;resize:vertical; }
 .vita-2 .taDec{float:right; margin:5px 50px 0 0; color: #898989;}

@@ -2,142 +2,117 @@
 
 <%def name="css_files()">
     ${ parent.css_files() }
-    <link href="../../static/css/global.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/page-2.css" rel="stylesheet" type="text/css">    
-    <link href="../../static/css/create_recipe.css" rel="stylesheet" type="text/css">
-
+    <link href="/static/css/global.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/page-2.css" rel="stylesheet" type="text/css">    
+    <link href="/static/css/create_recipe.css" rel="stylesheet" type="text/css">
 </%def>
 
 <%def name="title()">Create Recipe</%def>
 <%def name="js_defer()">
     ${ parent.js_defer() }
-    <script type="text/javascript" src="../../static/js/jquery.js"></script>
-
-    <script type=""text/javascript>
-
-    $(function() {
-        n = 1;
-        $("#id_add_ingredient_btn").click(function(){
-
-        $("#edit_ingredient_inputbox").append('<div class="border-bottom-2 cf" id="ingredient_'+n+'"><ul class="cf"><li ><span>category</span><input name="categoryname" id="categoryname_'+n+'" type="text" maxLength="20" value=""/></li><li ><span>Amount&nbsp;</span><input name="amount" id="amount_'+n+'" type="text" maxLength="10" value=""/></li><li ><span>Unit &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span><select name="unit" id="unit_'+n+'"><option selected="selected" value="lbs">lbs</option><option value="gal">gal</option><option value="oz">oz</option></select></li ><li ><span>Name&nbsp;&nbsp;&nbsp;</span><input name="ingredientname" id="ingredientname_'+n+'" type="text" maxLength="30" value=""/></li></ul></div>');
-                n = n+1;
-         });
-
-
-        i = 1;
-        $("#id_add_it_procedure_btn").click(function(){
-
-        $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><span>Title&nbsp;&nbsp;&nbsp;</span><input name="titlename" id="titlename_'+i+'" type="text" maxLength="20" value=""/></li><li ><span>Tag&nbsp;&nbsp;&nbsp;&nbsp;</span><input name="tag" id="tag_'+i+'" type="text" maxLength="10" value=""/></li><li ><span>content&nbsp;&nbsp;&nbsp;</span><input name="content" id="content_'+i+'"  type="text" maxLength="30" value=""/></li></ul></div>');
-                i = i+1;
-         });
-      
-        });  
-
-
-
-    </script>    
+    <script type="text/javascript" src="/static/js/create.js"></script>
 </%def>
 
 <br />
 
 <div class="myVita recipe">
     <div class="content">
-            <h2>Create a Recipe</h2>  
-            <form class="form-horizontal" id="inputForm" action="/create_recipe" method="post" role="form">  
-                    <div class="labelBar-2">
-                        <h3>Recipe Name <input name="recipename" id="recipename" type="text" maxLength="20" value=""/>
-                        </h3>
-                    </div>                      
-                  <!-- Ingredient -->
-                    <div class="labelBar-2">
-                        <h3>Ingredient</h3>
-                    </div>
+        <h2>Create a Recipe</h2>  
+        <form class="form-horizontal" id="inputForm" action="/create_recipe" method="post" role="form">            
+            <div class="labelBar-2">
+                <input class="form-control" name="recipename" id="recipename" type="text" placeholder="Recipe Name" value=""/>
+                
+            </div>                      
+            <!-- Ingredient -->
+            <div class="labelBar-2">
+                <h3>Ingredient</h3>
+            </div>
 
-                    <div class="vita-2">
-                   
-                       
-                        <div id="edit_ingredient_inputbox">
-                            <ul class="cf">
+            <div class="vita-2">
 
-                                <li >
-                                    <span>category</span>
-                                    <input name="categoryname" id="categoryname_0" type="text" maxLength="20" value=""/>
-                                </li> 
-                                <li > 
-                                    <span>Amount&nbsp;</span>
-                                    <input name="amount" id="amount_0" type="text" maxLength="10" value=""/>
-                                </li> 
-                                <li >
-                                    <span>Unit &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</span>                                       
-                                        <select name="unit" id="unit_0">
-                                         <option selected="selected" value="lbs">lbs</option>
-                                         <option value="gal">gal</option>
-                                         <option value="oz">oz</option>
-                                        </select>
-                                </li >        
-                                <li >                                    
-                                    <span>Name&nbsp;&nbsp;&nbsp;</span>
-                                    <input name="ingredientname" id="ingredientname_0" type="text" maxLength="30" value=""/>                            
-                                </li>                        
-                            </ul> 
-                            <!--
+
+                <div id="edit_ingredient_inputbox">
+                    <ul class="cf">
+
+                        <li >
+
+                        <input class="form-control" name="categoryname" id="categoryname_0" type="text" placeholder="Category" value=""/>
+                        </li> 
+                        <li > 
+
+                        <input class="form-control" name="amount" id="amount_0" type="text" placeholder="Amount" value=""/>
+                        </li> 
+                        <li >
+                                     
+                        <select class="form-control" name="unit" id="unit_0">
+                            <option selected="selected" value="lbs">lbs</option>
+                            <option value="gal">gal</option>
+                            <option value="oz">oz</option>
+                        </select>
+                        </li >        
+                        <li >                                    
+
+                        <input class="form-control" name="ingredientname" id="ingredientname_0" type="text" placeholder="Name"  value=""/>                            
+                        </li>                        
+                    </ul> 
+                    <!--
                             <div class="action">
                                 <button class="positive" type="button" id="id_save_ingredient_0" onclick="save_ingredient_add(1)"> Save </button>
                                 <button class="negative" type="button" onclick="cancel_ingredient_edit(1)"> Cancel </button>                               
                             </div> 
                             -->                          
-                        </div>
-                        <button class="positive" type="button" id="id_add_ingredient_btn" onclick="">
-                        Add</button>                        
-                    </div>
+                </div>
+                <button class="positive" type="button" id="id_add_ingredient_btn" onclick="">
+                    Add</button>                        
+            </div>
 
-                    <!-- Ingredient end --> 
+            <!-- Ingredient end --> 
 
-                
-                  <!-- Procedure -->
-                    <div class="labelBar-2">
-                        <h3>Procedure</h3>
-                    </div>                  
-                    <div class="vita-2">
-                       
-                        <div id="edit_it_procedure_inputbox" >
-                            
-                            <ul class="cf">
 
-                                <li >
-                                    <span>Title&nbsp;&nbsp;&nbsp;</span>
-                                    <input class="form-control" name="titlename" id="titlename_0" type="text" maxLength="30" value=""/>
-                                </li> 
-                                <li >
-                                    <span>Tag&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <input class="form-control" name="Tag" id="Tag_0" type="text" maxLength="30" value=""/>
-                                </li>                        
-                            </ul>
-                            <ul class="cf">
-                                <li class="vf">
-                                    <span>Content</span>
-                                    <input name="content" id="content_0" type="text" maxLength="30" value=""/>
-                                </li>
-                            </ul> 
-                            <!--                               
+            <!-- Procedure -->
+            <div class="labelBar-2">
+                <h3>Procedure</h3>
+            </div>                  
+            <div class="vita-2">
+
+                <div id="edit_it_procedure_inputbox" >
+
+                    <ul class="cf">
+
+                        <li >
+
+                        <input class="form-control" name="titlename" id="titlename_0" type="text" placeholder="Title" value=""/>
+                        </li> 
+                        <li >
+
+                        <input class="form-control" name="tag" id="tag_0" type="text" placeholder="Tag" value=""/>
+                        </li>                        
+                    </ul>
+                    <ul class="cf">
+                        <li class="vf">
+
+                        <input class="form-control" name="content" id="content_0" type="text" placeholder="Content" value=""/>
+                        </li>
+                    </ul> 
+                    <!--                               
                             <div class="action">
                                 <button class="positive" type="button" id="id_save_it_procedure_0" onclick="save_it_procedure_add(4770951)"> Save  </button>
                                 <button class="negative" type="button" onclick="cancel_it_procedure_edit(4770951)"> Cancel </button>
                             </div>
                             -->
-                        </div>
-                        <button class="positive" type="button" id="id_add_it_procedure_btn" onclick="">Add </button>
-                    </div>
-                    </br>
-                    <!-- Procedure end -->                     
-                
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <input class="btn btn-success col-xs-12" type="submit" value="Create">
-                    </div>
                 </div>
-            </form>
- 
+                <button class="positive" type="button" id="id_add_it_procedure_btn" onclick="">Add </button>
+            </div>
+            </br>
+            <!-- Procedure end -->                     
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <input id="create_btn" class="btn btn-success col-xs-12" type="button" value="Create">
+                </div>
+            </div>
+        </form>
+
     </div>     
 </div>
 
