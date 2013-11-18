@@ -5,7 +5,7 @@ import brewer.views
 import auth.views
 
 urlpatterns = patterns('',
-    #url(r'^$', brewer.views.CourseView.as_view(), name='course_list'),
+    url(r'^$', brewer.views.RecipesView.as_view(), name='recipes'),
     #url(r'^user_profile$', brewer.views.UserProfileView.as_view(), name='user_profile'),
 
     url(r'^recipe/(?P<recipe_id>\d+)$', brewer.views.RecipeView.as_view(), name='recipe'),

@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import (
     TemplateView,
     FormView,
+    ListView
 )
 
 from auth.views import LoginRequiredMixin
@@ -22,6 +23,20 @@ from brewer.models import (
     Recipe,
 )
 
+class RecipesView(ListView):
+    template_name = 'brewer/recipes.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        recipe_name = self.request.GET.get("recipe_name", "")
+        return Recipe.objects.filter(
+            name__icontains=recipe_name,
+        ) 
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipesView, self).get_context_data(**kwargs)
+        context['recipe_name'] = self.request.GET.get("recipe_name", "")
+        return context
 
 class JSONResponseMixin(object):
     def render_to_response(self, context):
