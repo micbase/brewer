@@ -4,9 +4,9 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
-    TemplateView,
     FormView,
-    ListView
+    ListView,
+    TemplateView,
 )
 
 from auth.views import LoginRequiredMixin
@@ -23,21 +23,24 @@ from brewer.models import (
     Recipe,
 )
 
-class RecipesView(ListView):
+
+class RecipeListView(LoginRequiredMixin, ListView):
     template_name = 'brewer/recipes.html'
     paginate_by = 20
 
     def get_queryset(self):
-        user=self.request.user        
+        user = self.request.user
         recipe_name = self.request.GET.get("recipe_name", "")
         return Recipe.objects.filter(
-            name__icontains=recipe_name, brewer=user
-        ) 
+            name__icontains=recipe_name,
+            brewer=user,
+        )
 
     def get_context_data(self, **kwargs):
-        context = super(RecipesView, self).get_context_data(**kwargs)
+        context = super(RecipeListView, self).get_context_data(**kwargs)
         context['recipe_name'] = self.request.GET.get("recipe_name", "")
         return context
+
 
 class JSONResponseMixin(object):
     def render_to_response(self, context):
@@ -59,7 +62,7 @@ class JSONResponseMixin(object):
         return json.dumps(context)
 
 
-class RecipeView(TemplateView):
+class RecipeView(LoginRequiredMixin, TemplateView):
     template_name = 'brewer/recipe.html'
 
     def get_recipe(self):
@@ -82,7 +85,7 @@ class RecipeView(TemplateView):
         return context
 
 
-class RecipeNoteView(JSONResponseMixin, FormView):
+class RecipeNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = RecipeForm
 
     def form_valid(self, form):
@@ -108,7 +111,7 @@ class RecipeNoteView(JSONResponseMixin, FormView):
         return context
 
 
-class IngredientNoteView(JSONResponseMixin, FormView):
+class IngredientNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = IngredientForm
 
     def form_valid(self, form):
@@ -134,7 +137,7 @@ class IngredientNoteView(JSONResponseMixin, FormView):
         return context
 
 
-class ProcedureNoteView(JSONResponseMixin, FormView):
+class ProcedureNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = ProcedureForm
 
     def form_valid(self, form):
