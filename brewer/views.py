@@ -28,9 +28,10 @@ class RecipesView(ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        user=self.request.user        
         recipe_name = self.request.GET.get("recipe_name", "")
         return Recipe.objects.filter(
-            name__icontains=recipe_name,
+            name__icontains=recipe_name, brewer=user
         ) 
 
     def get_context_data(self, **kwargs):

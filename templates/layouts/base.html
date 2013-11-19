@@ -20,7 +20,7 @@ ${ self.css_files() }
                 <span class="icon-bar"></span>
             </button>
                 % if user.is_authenticated():
-                    <a class="navbar-brand" href="/user_profile">Hi, ${ user.first_name }</a>
+                    <a class="navbar-brand" href="/recipes">Hi, ${ user.first_name }</a>
                 % else:
                     <a class="navbar-brand" href="/login">Welcome</a>
                 % endif
@@ -29,7 +29,7 @@ ${ self.css_files() }
             <ul class="nav navbar-nav">
 
                 % if user.is_authenticated():
-                    <li class="active"><a href="/">Home</a></li>                
+                    <li class="active"><a href="/recipes">Home</a></li>                
                     <li><a href="/logout">Logout</a></li>
                 % else:
                     <li class="active"><a href="/login">Home</a></li>                

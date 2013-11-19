@@ -4,17 +4,38 @@ $(function() {
     n = 1;
     $("#id_add_ingredient_btn").click(function(){
 
-        $("#edit_ingredient_inputbox").append('<div class="border-bottom-2 cf" id="ingredient_'+n+'"><ul class="cf"><li ><input class="form-control" name="categoryname" id="categoryname_'+n+'" type="text" placeholder="Category" value=""/></li><li ><input class="form-control" name="amount" id="amount_'+n+'" type="text" placeholder="Amount" value=""/></li><li ><select class="form-control" name="unit" id="unit_'+n+'"><option selected="selected" value="lbs">lbs</option><option value="gal">gal</option><option value="oz">oz</option></select></li ><li ><input class="form-control" name="ingredientname" id="ingredientname_'+n+'" type="text" placeholder="name" value=""/></li></ul></div>');
+        $("#edit_ingredient_inputbox").append('<div class="border-bottom-2 cf" id="ingredient_'+n+'"><ul class="cf"><li ><input class="form-control" name="categoryname" id="categoryname_'+n+'" type="text" placeholder="Category" value=""/></li><li ><input class="form-control" name="amount" id="amount_'+n+'" type="text" placeholder="Amount" value=""/></li><li ><select class="form-control" name="unit" id="unit_'+n+'"><option selected="selected" value="lbs">lbs</option><option value="gal">gal</option><option value="oz">oz</option></select></li ><li ><input class="form-control" name="ingredientname" id="ingredientname_'+n+'" type="text" placeholder="Name" value=""/></li></ul></div>');
         n = n+1;
+        $("#id_delete_ingredient_btn").show();        
     });
 
+    $("#id_delete_ingredient_btn").click(function(){
+        n = n-1;
+        if (n>1){
+            $("#ingredient_"+n).remove();            
+        }else if (n==1){
+            $("#ingredient_"+n).remove();              
+            $("#id_delete_ingredient_btn").hide();
+        }
+
+    });
 
     i = 1;
     $("#id_add_it_procedure_btn").click(function(){
 
-        $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><input class="form-control" name="titlename" id="titlename_'+i+'" type="text" placeholder="title" value=""/></li><li ><input class="form-control" name="tag" id="tag_'+i+'" type="text" placeholder="Tag" value=""/></li><li ><input class="form-control" name="content" id="content_'+i+'" type="text" placeholder="Content"></li></ul></div>');
+        $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><input class="form-control" name="titlename" id="titlename_'+i+'" type="text" placeholder="Title" value=""/></li><li ><input class="form-control" name="tag" id="tag_'+i+'" type="text" placeholder="Tag" value=""/></li><li ><input class="form-control" name="content" id="content_'+i+'" type="text" placeholder="Content"></li></ul></div>');
         i = i+1;
     });
+
+    $("#id_delete_procedure_btn").click(function(){
+        i = i-1;
+        if (i>1){
+            $("#procedure_"+i).remove();            
+        }else if (i==1){
+            $("#procedure_"+i).remove();              
+            $("#id_delete_procedure_btn").hide();
+        }
+    });    
 
     $("#create_btn").click(function() {
         var id = 0;
@@ -96,4 +117,3 @@ $(function() {
     });
 
 }); 
-
