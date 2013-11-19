@@ -182,3 +182,25 @@ class CreateRecipeView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return '/recipe/' + str(self.recipe_id)
+
+class EditRecipeView(TemplateView):
+    template_name = 'brewer/edit_recipe.html'
+
+    def get_recipe(self):
+        recipe_id = self.kwargs['recipe_id']
+        return get_object_or_404(Recipe, pk=recipe_id)
+
+    def get_ingredient(self):
+        recipe_id = self.kwargs['recipe_id']
+        return Ingredient.objects.filter(recipe_id=recipe_id)
+
+    def get_procedure(self):
+        recipe_id = self.kwargs['recipe_id']
+        return Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditRecipeView, self).get_context_data(**kwargs)
+        context['recipe'] = self.get_recipe()
+        context['ingredient'] = self.get_ingredient()
+        context['procedure'] = self.get_procedure()
+        return context
