@@ -41,7 +41,19 @@
     </ul>
     <h3>Procedures</h3>
     <ol>
+        <%
+            pre_title = ""
+            cur_title = ""
+        %>
         % for item in procedure:
+        <%
+            pre_title = cur_title
+            cur_title = item.title
+        %>
+            % if pre_title != cur_title:
+                <div id="procedure_title_${item.id}" ><strong>${cur_title.upper()}:</strong></div>
+            % endif
+
         <li>
         <p id="procedure_tag_${item.id}" class="procedure"><strong class="text-danger">${item.tag}: </strong>${item.content}</p>
         % if item.note:
