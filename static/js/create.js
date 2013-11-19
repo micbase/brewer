@@ -25,6 +25,7 @@ $(function() {
 
         $("#edit_it_procedure_inputbox").append('<div class="border-bottom-2 cf" id="procedure_'+i+'"><ul class="cf"><li ><input class="form-control" name="titlename" id="titlename_'+i+'" type="text" placeholder="Title" value=""/></li><li ><input class="form-control" name="tag" id="tag_'+i+'" type="text" placeholder="Tag" value=""/></li><li ><input class="form-control" name="content" id="content_'+i+'" type="text" placeholder="Content"></li></ul></div>');
         i = i+1;
+        $("#id_delete_procedure_btn").show(); 
     });
 
     $("#id_delete_procedure_btn").click(function(){
