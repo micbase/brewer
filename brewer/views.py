@@ -194,6 +194,7 @@ class CreateRecipeView(LoginRequiredMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super(CreateRecipeView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['recipe_id'] = 0
         return kwargs
 
     def form_valid(self, form):
@@ -209,3 +210,40 @@ class CreateRecipeView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return '/recipe/' + str(self.recipe_id)
+
+class EditRecipeView(LoginRequiredMixin, FormView):
+    template_name = 'brewer/edit_recipe.html'
+    form_class = CreateRecipeForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateRecipeView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['recipe_id'] = self.kwargs['recipe_id']
+        return kwargs
+
+    def form_valid(self, form):
+        recipe_id = form.save()
+        json_data = json.dumps({
+            'success': True,
+            'redirect': '/recipe/' + str(recipe_id)
+        })
+        return HttpResponse(
+            json_data,
+            content_type='application/json',
+        )
+
+    def get_success_url(self):
+        return '/recipe/' + str(self.recipe_id)
+
+    def get_context_data(self):
+        context = super(EditRecipeView, self).get_context_data(**kwargs)
+        context['recipe'] = Recipe.objects.get(
+                                    pk = kwargs['recipe_id']
+                                    )
+        context['ingredient'] = Ingredient.objects.filter(
+                                    recipe_id = kwargs['recipe_id']
+                                    )
+        context['procedure'] = Procedure.objects.filter(
+                                    recipe_id = kwargs['recipe_id']
+                                    )
+        return context

@@ -53,10 +53,43 @@ class CreateRecipeForm(forms.Form):
     procedure_title = forms.CharField(required=True)
     procedure_tag = forms.CharField(required=True)
     procedure_content = forms.CharField(required=True)
+    ingredient_idlist = forms.CharField(required=False)
+    ingredient_removelist = forms.CharField(required=False)
+    procedure_idlist = forms.CharField(required=False)
+    procedure_removelist = forms.CharField(required=False)
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, recipe_id, *args, **kwargs):
         super(CreateRecipeForm, self).__init__(*args, **kwargs)
         self.user = user
+        self.recipe_id = recipe_id
+
+    def clean_ingredient_idlist(self):
+        ingredient_idlist = self.cleaned_data['ingredient_idlist']
+        if not ingredient_idlist:
+            return []
+        else:
+            return [int(item) for item in ingredient_idlist.split(',')]
+
+    def clean_ingredient_removelist(self):
+        ingredient_removelist = self.cleaned_data['ingredient_removelist']
+        if not ingredient_removelist:
+            return []
+        else:
+            return [int(item) for item in ingredient_removelist.split(',')]
+
+    def clean_procedure_idlist(self):
+        procedure_idlist = self.cleaned_data['procedure_idlist']
+        if not procedure_idlist:
+            return []
+        else:
+            return [int(item) for item in procedure_idlist.split(',')]
+
+    def clean_procedure_removelist(self):
+        procedure_removelist = self.cleaned_data['procedure_removelist']
+        if not procedure_removelist:
+            return []
+        else:
+            return [int(item) for item in procedure_removelist.split(',')]
 
     def clean_source_variety(self):
         source_variety = self.cleaned_data['source_variety']
@@ -95,13 +128,25 @@ class CreateRecipeForm(forms.Form):
             e = len(self.cleaned_data['procedure_title'])
             f = len(self.cleaned_data['procedure_tag'])
             g = len(self.cleaned_data['procedure_content'])
+            h = len(self.cleaned_data['ingredient_idlist'])
+            i = len(self.cleaned_data['procedure_idlist'])
         except KeyError:
             return forms.ValidationError('error')
 
-        if a != b or a != c or a != d:
+        if a != b or a != c or a != d :
+            return forms.ValidationError('error')
+        if h != 0 and h!= a:
             return forms.ValidationError('error')
         if e != f or e != g:
             return forms.ValidationError('error')
+        if i != 0 and i != e:
+            return forms.ValidationError('error')
+
+        if h == 0:
+            self.cleaned_data['ingredient_idlist'] = [0] * c
+            self.ifcreate = True
+        if i == 0:
+            self.cleaned_data['procedure_idlist'] = [0] * e
 
         return self.cleaned_data
 
@@ -114,35 +159,72 @@ class CreateRecipeForm(forms.Form):
         procedure_title = self.cleaned_data['procedure_title']
         procedure_tag = self.cleaned_data['procedure_tag']
         procedure_content = self.cleaned_data['procedure_content']
+        ingredient_idlist = self.cleaned_data['ingredient_idlist']
+        ingredient_removelist = self.cleaned_data['ingredient_removelist']
+        procedure_idlist = self.cleaned_data['procedure_idlist']
+        procedure_removelist = self.cleaned_data['procedure_removelist']
 
         new_recipe = Recipe(
-            name=recipe_name,
-            brewer=self.user,
-        )
-        new_recipe.save()
+                        name=recipe_name,
+                        brewer=self.user,
+                    )
+        if self.recipe_id == 0:
+            new_recipe.save()
+        else:
+            new_recipe = Recipe.get(
+                            pk=self.recipe_id,
+                        )
 
-        for i in range(len(source_name)):
-            new_source, created = Source.objects.get_or_create(
-                            variety=source_variety[i],
-                            name=source_name[i]
-                            )
-            new_source.save()
+        for i in range(len(ingredient_removelist)):
+            ingredient.objects.get(
+                    pk=ingredient_removelist[i],
+                    ).delete()
 
-            new_ingredient = Ingredient(
-                                recipe=new_recipe,
-                                source=new_source,
-                                amount=ingredient_amount[i],
-                                unit=ingredient_unit[i],
-                                )
-            new_ingredient.save()
+        for i in range(len(ingredient_idlist)):
+            if ingredient_idlist[i] == 0:
+                new_source, created = Source.objects.get_or_create(
+                        variety=source_variety[i],
+                        name=source_name[i]
+                        )
+                new_source.save()
 
-        for i in range(len(procedure_title)):
-            new_procedure = Procedure(
-                                recipe=new_recipe,
-                                title=procedure_title[i],
-                                tag=procedure_tag[i],
-                                content=procedure_content[i],
-                                )
-            new_procedure.save()
+                new_ingredient = Ingredient(
+                        recipe=new_recipe,
+                        source=new_source,
+                        amount=ingredient_amount[i],
+                        unit=ingredient_unit[i],
+                        )
+                new_ingredient.save()
+            else:
+                Ingredient.objects.get(
+                            pk=ingredient_idlist[i],
+                        ).update(
+                            source=source_name[i],
+                            amount=amount[i],
+                            unit=unit[i],
+                        )
 
-        return new_recipe.id
+        for i in range(len(procedure_removelist)):
+            Procedure.objects.get(
+                        pk=procedure_removelist[i],
+                    ).delete()
+
+        for i in range(len(procedure_idlist)):
+            if procedure_idlist[i] == 0:
+                new_procedure = Procedure(
+                        recipe=new_recipe,
+                        title=procedure_title[i],
+                        tag=procedure_tag[i],
+                        content=procedure_content[i],
+                        )
+                new_procedure.save()
+            else:
+                Procedure.objects.filter(
+                            pk=procedure_idlist[i],
+                        ).update(
+                            title=procedure_title[i],
+                            tag=procedure_tag[i],
+                            content=procedure_content[i],
+                        )
+
+        return self.new_recipe.id
