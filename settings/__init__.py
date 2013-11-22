@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'brewer',
+    'django_nose',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -160,3 +161,5 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'noreply@micbase.com'
 EMAIL_HOST_PASSWORD = '1P@fe89UAx&NSXp'
 EMAIL_USE_TLS = True
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
