@@ -83,32 +83,6 @@ class RecipeView(LoginRequiredMixin, TemplateView):
         context['procedure'] = self.get_procedure()
         return context
 
-
-class EditRecipeView(LoginRequiredMixin, TemplateView):
-    template_name = 'brewer/edit_recipe.html'
-
-    def get_recipe(self):
-        recipe_id = self.kwargs['recipe_id']
-        return get_object_or_404(Recipe, pk=recipe_id)
-
-    def get_ingredient(self):
-        recipe_id = self.kwargs['recipe_id']
-        ingredients = Ingredient.objects.filter(recipe_id=recipe_id).order_by('id')
-        return (ingredients, ingredients[len(ingredients) - 1].id + 1)
-
-    def get_procedure(self):
-        recipe_id = self.kwargs['recipe_id']
-        procedures = Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
-        return (procedures, procedures[len(procedures) - 1].id + 1)
-
-    def get_context_data(self, **kwargs):
-        context = super(EditRecipeView, self).get_context_data(**kwargs)
-        context['recipe'] = self.get_recipe()
-        context['ingredients'], context['ingredient_index'] = self.get_ingredient()
-        context['procedures'], context['procedure_index'] = self.get_procedure()
-        return context
-
-
 class RecipeNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = RecipeForm
 
@@ -215,8 +189,22 @@ class EditRecipeView(LoginRequiredMixin, FormView):
     template_name = 'brewer/edit_recipe.html'
     form_class = CreateRecipeForm
 
+    def get_recipe(self):
+        recipe_id = self.kwargs['recipe_id']
+        return get_object_or_404(Recipe, pk=recipe_id)
+
+    def get_ingredient(self):
+        recipe_id = self.kwargs['recipe_id']
+        ingredients = Ingredient.objects.filter(recipe_id=recipe_id).order_by('id')
+        return (ingredients, ingredients[len(ingredients) - 1].id + 1)
+
+    def get_procedure(self):
+        recipe_id = self.kwargs['recipe_id']
+        procedures = Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
+        return (procedures, procedures[len(procedures) - 1].id + 1)
+
     def get_form_kwargs(self):
-        kwargs = super(CreateRecipeView, self).get_form_kwargs()
+        kwargs = super(EditRecipeView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         kwargs['recipe_id'] = self.kwargs['recipe_id']
         return kwargs
@@ -235,15 +223,9 @@ class EditRecipeView(LoginRequiredMixin, FormView):
     def get_success_url(self):
         return '/recipe/' + str(self.recipe_id)
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
         context = super(EditRecipeView, self).get_context_data(**kwargs)
-        context['recipe'] = Recipe.objects.get(
-                                    pk = kwargs['recipe_id']
-                                    )
-        context['ingredient'] = Ingredient.objects.filter(
-                                    recipe_id = kwargs['recipe_id']
-                                    )
-        context['procedure'] = Procedure.objects.filter(
-                                    recipe_id = kwargs['recipe_id']
-                                    )
+        context['recipe'] = self.get_recipe()
+        context['ingredients'], context['ingredient_index'] = self.get_ingredient()
+        context['procedures'], context['procedure_index'] = self.get_procedure()
         return context

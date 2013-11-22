@@ -142,10 +142,9 @@ class CreateRecipeForm(forms.Form):
         if i != 0 and i != e:
             return forms.ValidationError('error')
 
-        if h == 0:
+        if self.recipe_id == 0 or h == 0:
             self.cleaned_data['ingredient_idlist'] = [0] * c
-            self.ifcreate = True
-        if i == 0:
+        if self.recipe_id == 0 or i == 0:
             self.cleaned_data['procedure_idlist'] = [0] * e
 
         return self.cleaned_data
@@ -164,44 +163,53 @@ class CreateRecipeForm(forms.Form):
         procedure_idlist = self.cleaned_data['procedure_idlist']
         procedure_removelist = self.cleaned_data['procedure_removelist']
 
-        new_recipe = Recipe(
-                        name=recipe_name,
-                        brewer=self.user,
-                    )
+        new_recipe = None
         if self.recipe_id == 0:
+            new_recipe = Recipe(
+                    name=recipe_name,
+                    brewer=self.user,
+                    )
             new_recipe.save()
         else:
-            new_recipe = Recipe.get(
-                            pk=self.recipe_id,
-                        )
+            new_recipe = Recipe.objects.get(
+                        pk=self.recipe_id,
+                    )
+
+        new_recipe.name = recipe_name
+        new_recipe.save()
 
         for i in range(len(ingredient_removelist)):
-            ingredient.objects.get(
-                    pk=ingredient_removelist[i],
-                    ).delete()
+            Ingredient.objects.get(
+                            pk=ingredient_removelist[i],
+                        ).delete()
 
         for i in range(len(ingredient_idlist)):
             if ingredient_idlist[i] == 0:
                 new_source, created = Source.objects.get_or_create(
-                        variety=source_variety[i],
-                        name=source_name[i]
-                        )
+                                    variety=source_variety[i],
+                                    name=source_name[i]
+                                )
                 new_source.save()
 
                 new_ingredient = Ingredient(
-                        recipe=new_recipe,
-                        source=new_source,
-                        amount=ingredient_amount[i],
-                        unit=ingredient_unit[i],
-                        )
+                    recipe=new_recipe,
+                    source=new_source,
+                    amount=ingredient_amount[i],
+                    unit=ingredient_unit[i],
+                )
                 new_ingredient.save()
             else:
-                Ingredient.objects.get(
+                new_source, created = Source.objects.get_or_create(
+                                    variety=source_variety[i],
+                                    name=source_name[i]
+                                )
+
+                Ingredient.objects.filter(
                             pk=ingredient_idlist[i],
                         ).update(
-                            source=source_name[i],
-                            amount=amount[i],
-                            unit=unit[i],
+                            source=new_source,
+                            amount=ingredient_amount[i],
+                            unit=ingredient_unit[i],
                         )
 
         for i in range(len(procedure_removelist)):
@@ -226,5 +234,4 @@ class CreateRecipeForm(forms.Form):
                             tag=procedure_tag[i],
                             content=procedure_content[i],
                         )
-
-        return self.new_recipe.id
+        return new_recipe.id
