@@ -3,11 +3,16 @@ language: python
 python:
   - "2.7"
 
+services: mysql
+
+env:
+  - DJANGO_SETTINGS_MODULE="brewer.settings.travis_test"
+
 install:
   - pip install -r scripts/vagrant/requirements.txt
 
 before_script:
-  - mysql -e "create database db;CREATE USER 'db_user'@'localhost' IDENTIFIED BY 'db_pwd';GRANT ALL PRIVILEGES ON * . * TO 'db_user'@'localhost';"
+  - mysql -e "create database db;"
   - python manage.py syncdb --noinput
   - echo "import scripts.initial_data" | python manage.py shell
 
