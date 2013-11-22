@@ -6,7 +6,7 @@ python:
 services: mysql
 
 env:
-  - DJANGO_SETTINGS_MODULE="brewer.settings.travis_test"
+  - DJANGO_SETTINGS_MODULE="settings.travis_test"
 
 install:
   - pip install -r scripts/vagrant/requirements.txt
