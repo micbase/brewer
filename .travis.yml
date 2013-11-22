@@ -13,7 +13,7 @@ install:
 
 before_script:
   - mysql -e "create database db;"
-  - python manage.py syncdb --noinput
+  - echo "no" | python manage.py syncdb
   - echo "import scripts.initial_data" | python manage.py shell
 
 script:
