@@ -93,17 +93,19 @@ class EditRecipeView(LoginRequiredMixin, TemplateView):
 
     def get_ingredient(self):
         recipe_id = self.kwargs['recipe_id']
-        return Ingredient.objects.filter(recipe_id=recipe_id)
+        ingredients = Ingredient.objects.filter(recipe_id=recipe_id).order_by('id')
+        return (ingredients, ingredients[len(ingredients) - 1].id + 1)
 
     def get_procedure(self):
         recipe_id = self.kwargs['recipe_id']
-        return Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
+        procedures = Procedure.objects.filter(recipe_id=recipe_id).order_by('id')
+        return (procedures, procedures[len(procedures) - 1].id + 1)
 
     def get_context_data(self, **kwargs):
         context = super(EditRecipeView, self).get_context_data(**kwargs)
         context['recipe'] = self.get_recipe()
-        context['ingredient'] = self.get_ingredient()
-        context['procedure'] = self.get_procedure()
+        context['ingredients'], context['ingredient_index'] = self.get_ingredient()
+        context['procedures'], context['procedure_index'] = self.get_procedure()
         return context
 
 

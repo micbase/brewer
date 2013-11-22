@@ -26,56 +26,54 @@
         </div>
 
         <div class="panel-body">
-
             <div id="ingredient_container">
-            <!--# % for ingre in ingredient:  -->
-            % for ingredient_index in range(len(ingredient)):
-                <input type="hidden" id="hiddenIngr" name="lengthIngr" value="${len(ingredient)}">
-                <div id="ingredient_${ingredient_index}">
+                <input type="hidden" id="hiddenIngr" name="lengthIngr" value="${ingredient_index}">
+
+                % for ingredient in ingredients:
+                <div id="ingredient_${ingredient.id}">
 
                     <div class="form-group">
-                        <input class="form-control" name="category" id="category_${ingredient_index}" type="text"
-                        value="${ingredient[ingredient_index].source.variety}">
+                        <input class="form-control" name="category" id="category_${ingredient.id}" type="text"
+                        value="${ingredient.source.variety}">
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" name="amount" id="amount_${ingredient_index}" type="text"
-                        value="${ingredient[ingredient_index].amount}">
+                        <input class="form-control" name="amount" id="amount_${ingredient.id}" type="text"
+                        value="${ingredient.amount}">
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" name="unit" id="unit_${ingredient_index}">
-                            <option selected="selected" value=${ingredient[ingredient_index].unit}>
-                            ${ingredient[ingredient_index].unit}</option>
-                            % if ingredient[ingredient_index].unit!="lbs":
+                        <select class="form-control" name="unit" id="unit_${ingredient.id}">
+                            <option selected="selected" value=${ingredient.unit}>
+                            ${ingredient.unit}</option>
+                            % if ingredient.unit!="lbs":
                             <option value="lbs">lbs</option>
-                            %else:
                             % endif
-                            % if ingredient[ingredient_index].unit!="gal":
+
+                            % if ingredient.unit!="gal":
                             <option value="gal">gal</option>
-                            %else:
                             % endif
-                            % if ingredient[ingredient_index].unit!="oz":
+
+                            % if ingredient.unit!="oz":
                             <option value="oz">oz</option>
-                            %else:
                             % endif
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" name="ingredient_name" id="ingredient_name_${ingredient_index}"
-                        type="text" value="${ingredient[ingredient_index].source.name}">
+                        <input class="form-control" name="ingredient_name" id="ingredient_name_${ingredient.id}"
+                        type="text" value="${ingredient.source.name}">
                     </div>
 
-                    <button class="btn btn-danger col-xs-6"  id="delete_oldingredient_btn"
-                    onclick="user_ingredient_del(${ingredient_index})">Delete</button>
+                    <div class="form-group">
+                        <button class="btn btn-danger" id="delete_oldingredient_btn"
+                            onclick="user_ingredient_del(${ingredient.id})">Delete</button>
+                    </div>
 
+                    <hr>
                 </div>
-
-            %endfor
-
+                %endfor
             </div>
-
             <button class="btn btn-success col-xs-6" id="id_add_ingredient_btn">Add More</button>
             <button class="btn btn-danger col-xs-6" id="id_delete_ingredient_btn" style="display:none;">Delete</button>
         </div>
@@ -84,41 +82,44 @@
             <h3 class="panel-title">Procedures</h3>
         </div>
 
-
         <div class="panel-body">
             <div id="procedure_container">
-            % for procedure_index in range(len(procedure)):
-                <input type="hidden" id="hiddenProc" name="lengthProc" value="${len(procedure)}">
-                <div id="procedure_${procedure_index}">
+                <input type="hidden" id="hiddenProc" name="lengthProc" value="${procedure_index}">
+
+                % for procedure in procedures:
+                <div id="procedure_${procedure.id}">
                     <div class="form-group">
-                        <input class="form-control" name="title" id="title_${procedure_index}" type="text"
-                        value="${procedure[procedure_index].title}">
+                        <input class="form-control" name="title" id="title_${procedure.id}" type="text"
+                        value="${procedure.title}">
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" name="tag" id="tag_${procedure_index}" type="text"
-                        value="${procedure[procedure_index].tag}">
+                        <input class="form-control" name="tag" id="tag_${procedure.id}" type="text"
+                        value="${procedure.tag}">
                     </div>
 
                     <div class="form-group">
-                        <input class="form-control" name="content" id="content_${procedure_index}" type="text"
-                        value="${procedure[procedure_index].content}">
+                        <input class="form-control" name="content" id="content_${procedure.id}" type="text"
+                        value="${procedure.content}">
                     </div>
-                    <button class="btn btn-danger col-xs-6"  id="delete_oldprocedure_btn"
-                    onclick="user_procedure_del(${procedure_index})">Delete</button>
+
+                    <div class="form-group">
+                        <button class="btn btn-danger" id="delete_oldprocedure_btn"
+                            onclick="user_procedure_del(${procedure.id})">Delete</button>
+                    </div>
+
+                    <hr>
                 </div>
-            %endfor
+                %endfor
             </div>
-
             <button class="btn btn-success col-xs-6" id="id_add_procedure_btn">Add More</button>
             <button class="btn btn-danger col-xs-6" id="id_delete_procedure_btn" style="display:none;">Delete</button>
         </div>
-
     </div>
 </div>
 
 <div class="col-xs-12">
     <div class="form-group">
-        <input id="create_btn" class="btn btn-success col-xs-12" type="button" value="Save">
+        <input id="edit_btn" class="btn btn-success col-xs-12" type="button" value="Save">
     </div>
 </div>
