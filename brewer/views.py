@@ -83,6 +83,7 @@ class RecipeView(LoginRequiredMixin, TemplateView):
         context['procedure'] = self.get_procedure()
         return context
 
+
 class EditRecipeView(LoginRequiredMixin, TemplateView):
     template_name = 'brewer/edit_recipe.html'
 
@@ -104,6 +105,7 @@ class EditRecipeView(LoginRequiredMixin, TemplateView):
         context['ingredient'] = self.get_ingredient()
         context['procedure'] = self.get_procedure()
         return context
+
 
 class RecipeNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = RecipeForm
@@ -205,4 +207,3 @@ class CreateRecipeView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return '/recipe/' + str(self.recipe_id)
-

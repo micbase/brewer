@@ -5,7 +5,7 @@ $(function() {
     ingredient_index=parseInt(hiddenIngr);
 
     hiddenProc= $("#hiddenProc").val();
-    procedure_index=parseInt(hiddenProc);    
+    procedure_index=parseInt(hiddenProc);
 
 
     $("#id_add_ingredient_btn").click(function(){
