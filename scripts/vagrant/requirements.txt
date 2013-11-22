@@ -3,3 +3,4 @@ mysql-python
 Mako
 djmako
 uwsgi
+django-nose
