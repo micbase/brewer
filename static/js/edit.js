@@ -1,8 +1,12 @@
 jQuery.fn.exists = function(){return this.length>0;}
 
 $(function() {
-    ingredient_index = 1;
-    procedure_index = 1;
+    hiddenIngr= $("#hiddenIngr").val();
+    ingredient_index=parseInt(hiddenIngr);
+
+    hiddenProc= $("#hiddenProc").val();
+    procedure_index=parseInt(hiddenProc);    
+
 
     $("#id_add_ingredient_btn").click(function(){
 
@@ -10,7 +14,7 @@ $(function() {
             <hr>\
             <div class="form-group">\
                 <input class="form-control" name="category" id="category_' +
-                    ingredient_index + '" type="text" placeholder="Category">\
+                    ingredient_index + '" type="text"  placeholder="Category">\
             </div>\
             <div class="form-group">\
                 <input class="form-control" name="amount" id="amount_' + ingredient_index +
@@ -35,9 +39,9 @@ $(function() {
 
     $("#id_delete_ingredient_btn").click(function(){
         ingredient_index--;
-        if (ingredient_index > 1){
+        if (ingredient_index > hiddenIngr){
             $("#ingredient_" + ingredient_index).remove();
-        } else if (ingredient_index == 1){
+        } else if (ingredient_index == hiddenIngr){
             $("#ingredient_" + ingredient_index).remove();
             $("#id_delete_ingredient_btn").hide();
         }
@@ -66,12 +70,13 @@ $(function() {
 
     $("#id_delete_procedure_btn").click(function() {
         procedure_index--;
-        if (procedure_index > 1) {
+        if (procedure_index > hiddenProc) {
             $("#procedure_" + procedure_index).remove();
-        } else if (procedure_index == 1) {
+        } else if (procedure_index == hiddenProc) {
             $("#procedure_" + procedure_index).remove();
             $("#id_delete_procedure_btn").hide();
         }
+        // $("#ingredient_container").remove();
     });
 
     $("#create_btn").click(function() {
@@ -153,4 +158,49 @@ $(function() {
 
     });
 
-});
+}
+
+);
+
+
+function user_ingredient_del(ingredient_index){
+    $("#ingredient_"+ingredient_index).remove();
+
+}
+
+function user_procedure_del(procedure_index){
+    $("#procedure_"+procedure_index).remove();
+
+}
+
+// function user_ingredient_add(len,ingredient_index){
+//         base_index=ingredient_index;
+//         // ingredient_index++;
+//         ingredient_index++;
+//         $("#ingredient_"+base_index).append('<div id="ingredient_' + ingredient_index + '">\
+//             <hr>\
+//             <div class="form-group">\
+//                 <input class="form-control" name="category" id="category_' +
+//                     ingredient_index + '" type="text" placeholder="Category">\
+//             </div>\
+//             <div class="form-group">\
+//                 <input class="form-control" name="amount" id="amount_' + ingredient_index +
+//                     '" type="text" placeholder="Amount">\
+//             </div>\
+//             <div class="form-group">\
+//                 <select class="form-control" name="unit" id="unit_' + ingredient_index + '">\
+//                     <option selected="selected" value="lbs">lbs</option>\
+//                     <option value="gal">gal</option>\
+//                     <option value="oz">oz</option>\
+//                 </select>\
+//             </div>\
+//             <div class="form-group">\
+//                 <input class="form-control" name="ingredient_name" id="ingredient_name_'
+//                 + ingredient_index + '" type="text" placeholder="Name">\
+//             </div>\
+//             <button class="btn btn-success col-xs-6" id="id_add_ingredient_btn" onclick="user_ingredient_add(len,ingredient_index)">Add More</button>\
+//         </div>');
+
+
+//     }
+

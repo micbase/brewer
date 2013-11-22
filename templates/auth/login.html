@@ -11,7 +11,7 @@
 </%def>
 
 <div class="col-xs-12">
-    <h1>Login</h1>
+    <h2 class="text-center">Login</h2>
     % if form.errors:
     <div class="alert alert-danger">
         <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
@@ -29,7 +29,7 @@
                 % endif
             </div>
             % endfor
-            <input type="hidden" name="redirect" value="/recipes" />
+            <input type="hidden" name="redirect" value="/" />
         </div>
         <div class="col-xs-12">
             <div class="form-group">
