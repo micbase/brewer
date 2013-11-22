@@ -66,7 +66,7 @@ class RecipeView(LoginRequiredMixin, TemplateView):
 
     def get_recipe(self):
         recipe_id = self.kwargs['recipe_id']
-        return get_object_or_404(Recipe, pk=recipe_id)
+        return get_object_or_404(Recipe, brewer=self.request.user, pk=recipe_id)
 
     def get_ingredient(self):
         recipe_id = self.kwargs['recipe_id']
@@ -83,6 +83,7 @@ class RecipeView(LoginRequiredMixin, TemplateView):
         context['procedure'] = self.get_procedure()
         return context
 
+
 class RecipeNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
     form_class = RecipeForm
 
@@ -92,7 +93,7 @@ class RecipeNoteView(LoginRequiredMixin, JSONResponseMixin, FormView):
 
     def get_recipe(self):
         recipe_id = self.kwargs['recipe_id']
-        return get_object_or_404(Recipe, pk=recipe_id)
+        return get_object_or_404(Recipe, brewer=self.request.user, pk=recipe_id)
 
     def get_note(self):
         recipe = self.get_recipe()
@@ -185,13 +186,14 @@ class CreateRecipeView(LoginRequiredMixin, FormView):
     def get_success_url(self):
         return '/recipe/' + str(self.recipe_id)
 
+
 class EditRecipeView(LoginRequiredMixin, FormView):
     template_name = 'brewer/edit_recipe.html'
     form_class = CreateRecipeForm
 
     def get_recipe(self):
         recipe_id = self.kwargs['recipe_id']
-        return get_object_or_404(Recipe, pk=recipe_id)
+        return get_object_or_404(Recipe, brewer=self.request.user, pk=recipe_id)
 
     def get_ingredient(self):
         recipe_id = self.kwargs['recipe_id']
