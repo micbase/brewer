@@ -41,7 +41,7 @@ class Recipe(models.Model):
         default='',
         blank=True,
     )
-
+    status=models.PositiveSmallIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     changed = models.DateTimeField(auto_now=True)
 
@@ -55,7 +55,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe)
     source = models.ForeignKey(Source)
-    amount = models.FloatField(blank=True)
+    amount = models.FloatField(default=None, null=True, blank=True)
     unit = models.CharField(
         max_length=20,
         default='',

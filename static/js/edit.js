@@ -81,97 +81,101 @@ $(function() {
         }
     });
 
-    $("#edit_btn").click(function() {
-        var all_category = '';
-        var all_amount = '';
-        var all_unit = '';
-        var all_ingredient_name = '';
-        var all_ingredient_id = '';
-
-        $("#ingredient_container").children("div").each(function() {
-            var id = $(this).attr('id').substring(11);
-            var category_id = '#category_' + id;
-            var amount_id = '#amount_' + id;
-            var unit_id = '#unit_' + id;
-            var ingredient_name_id = '#ingredient_name_' + id;
-
-            if ($(category_id).exists() && $(amount_id).exists() &&
-                $(unit_id).exists() && $(ingredient_name_id).exists()) {
-
-                all_category += $(category_id).val() + ',';
-                all_amount += $(amount_id).val() + ',';
-                all_unit += $(unit_id).val() + ',';
-                all_ingredient_name += $(ingredient_name_id).val() + ',';
-                if (parseInt(id) < hiddenIngr) {
-                    all_ingredient_id += id + ',';
-                } else {
-                    all_ingredient_id += '0,';
-                }
-            }
-        });
-
-        all_category = all_category.slice(0, -1);
-        all_amount = all_amount.slice(0, -1);
-        all_unit = all_unit.slice(0, -1);
-        all_ingredient_name = all_ingredient_name.slice(0, -1);
-        all_ingredient_id = all_ingredient_id.slice(0, -1);
-
-        var all_title = '';
-        var all_tag = '';
-        var all_content = '';
-        var all_procedure_id = '';
-
-        $("#procedure_container").children("div").each(function() {
-            var id = $(this).attr('id').substring(10);
-            var title_id = '#title_' + id;
-            var tag_id = '#tag_' + id;
-            var content_id = '#content_' + id;
-
-            if ($(title_id).exists() && $(tag_id).exists() &&
-                $(content_id).exists()) {
-
-                all_title += $(title_id).val() + ',';
-                all_tag += $(tag_id).val() + ',';
-                all_content += $(content_id).val() + ',';
-                if (parseInt(id) < hiddenProc) {
-                    all_procedure_id += id + ',';
-                } else {
-                    all_procedure_id += '0,';
-                }
-            }
-        });
-
-        all_title = all_title.slice(0, -1);
-        all_tag = all_tag.slice(0, -1);
-        all_content = all_content.slice(0, -1);
-        all_procedure_id = all_procedure_id.slice(0, -1);
-
-        $.post(window.location.href, {
-            recipe_name: $('#recipe_name').val(),
-            source_name: all_ingredient_name,
-            source_variety: all_category,
-            amount: all_amount,
-            unit: all_unit,
-            ingredient_idlist: all_ingredient_id,
-            ingredient_removelist: ingredient_removed.toString(),
-            procedure_title: all_title,
-            procedure_tag: all_tag,
-            procedure_content: all_content,
-            procedure_idlist: all_procedure_id,
-            procedure_removelist: procedure_removed.toString()
-        }, function(data) {
-            if (data.success) {
-                window.location.href = data.redirect;
-            }
-            else {
-                alert("Input Error");
-            }
-        });
-
-    });
 });
 
+function edit_recipe(choice) {
+    var all_category = '';
+    var all_amount = '';
+    var all_unit = '';
+    var all_ingredient_name = '';
+    var all_ingredient_id = '';
+    var status=choice;
 
+    $("#ingredient_container").children("div").each(function() {
+        var id = $(this).attr('id').substring(11);
+        var category_id = '#category_' + id;
+        var amount_id = '#amount_' + id;
+        var unit_id = '#unit_' + id;
+        var ingredient_name_id = '#ingredient_name_' + id;
+
+        if ($(category_id).exists() && $(amount_id).exists() &&
+            $(unit_id).exists() && $(ingredient_name_id).exists()) {
+
+            all_category += $(category_id).val() + ',';
+            all_amount += $(amount_id).val() + ',';
+            all_unit += $(unit_id).val() + ',';
+            all_ingredient_name += $(ingredient_name_id).val() + ',';
+            if (parseInt(id) < hiddenIngr) {
+                all_ingredient_id += id + ',';
+            } else {
+                all_ingredient_id += '0,';
+            }
+        }
+    });
+
+    all_category = all_category.slice(0, -1);
+    all_amount = all_amount.slice(0, -1);
+    all_unit = all_unit.slice(0, -1);
+    all_ingredient_name = all_ingredient_name.slice(0, -1);
+    all_ingredient_id = all_ingredient_id.slice(0, -1);
+
+    var all_title = '';
+    var all_tag = '';
+    var all_content = '';
+    var all_procedure_id = '';
+
+    $("#procedure_container").children("div").each(function() {
+        var id = $(this).attr('id').substring(10);
+        var title_id = '#title_' + id;
+        var tag_id = '#tag_' + id;
+        var content_id = '#content_' + id;
+
+        if ($(title_id).exists() && $(tag_id).exists() &&
+            $(content_id).exists()) {
+
+            all_title += $(title_id).val() + ',';
+            all_tag += $(tag_id).val() + ',';
+            all_content += $(content_id).val() + ',';
+            if (parseInt(id) < hiddenProc) {
+                all_procedure_id += id + ',';
+            } else {
+                all_procedure_id += '0,';
+            }
+        }
+    });
+
+    all_title = all_title.slice(0, -1);
+    all_tag = all_tag.slice(0, -1);
+    all_content = all_content.slice(0, -1);
+    all_procedure_id = all_procedure_id.slice(0, -1);
+
+    $.post(window.location.href, {
+        recipe_name: $('#recipe_name').val(),
+        recipe_status:status,
+        source_name: all_ingredient_name,
+        source_variety: all_category,
+        amount: all_amount,
+        unit: all_unit,
+        ingredient_idlist: all_ingredient_id,
+        ingredient_removelist: ingredient_removed.toString(),
+        procedure_title: all_title,
+        procedure_tag: all_tag,
+        procedure_content: all_content,
+        procedure_idlist: all_procedure_id,
+        procedure_removelist: procedure_removed.toString()
+    }, function(data) {
+        if (data.success) {
+            if (status==1)
+                window.location.href = data.redirect;
+            else
+                window.location.href = data.Del_redirect;                
+        }
+        else {
+            alert("Input Error");
+        }
+    });
+
+}
 function user_ingredient_del(index) {
     $("#ingredient_" + index).remove();
     ingredient_removed.push(index);

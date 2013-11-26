@@ -33,6 +33,7 @@ class RecipeListView(LoginRequiredMixin, ListView):
         return Recipe.objects.filter(
             name__icontains=recipe_name,
             brewer=user,
+            status=1
         )
 
     def get_context_data(self, **kwargs):
@@ -215,7 +216,8 @@ class EditRecipeView(LoginRequiredMixin, FormView):
         recipe_id = form.save()
         json_data = json.dumps({
             'success': True,
-            'redirect': '/recipe/' + str(recipe_id)
+            'redirect': '/recipe/' + str(recipe_id),
+            'Del_redirect': '/'            
         })
         return HttpResponse(
             json_data,
