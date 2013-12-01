@@ -80,6 +80,7 @@ $(function() {
         var all_amount = '';
         var all_unit = '';
         var all_ingredient_name = '';
+        var status=1;
 
         while (true) {
             var category_id = '#category_' + id;
@@ -135,6 +136,7 @@ $(function() {
 
         $.post("/create_recipe", {
             recipe_name: $('#recipe_name').val(),
+            recipe_status:status,            
             source_name: all_ingredient_name,
             source_variety: all_category,
             amount: all_amount,

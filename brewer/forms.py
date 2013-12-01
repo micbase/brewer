@@ -45,7 +45,7 @@ class ProcedureForm(forms.Form):
 
 
 class CreateRecipeForm(forms.Form):
-    recipe_status = forms.CharField(required=True)
+    recipe_status = forms.CharField(required=False)
     recipe_name = forms.CharField(required=True)
     source_name = forms.CharField(required=True)
     source_variety = forms.CharField(required=True)
@@ -159,7 +159,7 @@ class CreateRecipeForm(forms.Form):
 
     def save(self):
         recipe_status = self.cleaned_data['recipe_status']
-        if recipe_status == 0:
+        if recipe_status == '0':
             new_recipe = Recipe.objects.get(
                         pk=self.recipe_id,
                     )
@@ -191,7 +191,7 @@ class CreateRecipeForm(forms.Form):
                 new_recipe = Recipe.objects.get(
                             pk=self.recipe_id,
                         )
-
+            
             new_recipe.name = recipe_name
             new_recipe.status = recipe_status
             new_recipe.save()

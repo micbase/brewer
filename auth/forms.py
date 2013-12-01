@@ -70,52 +70,48 @@ class RegisterForm(forms.Form):
         recipe_3 = Recipe(name="Nut Brown Ale", inote="", note="", brewer=user)
         recipe_3.save()
 
-        source_1 = Source(variety="Grains", name="Weyermann Pale Wheat Malt")
-        source_1.save()
-        source_2 = Source(variety="Grains", name="German Pilsner Malt")
-        source_2.save()
-        source_3 = Source(variety="Yeast", name="Wyeast 3068 Weihenstephan Wheat")
-        source_3.save()
-        source_4 = Source(variety="Hops", name="Hallertau")
-        source_4.save()
-        source_5 = Source(variety="Priming Sugar", name="Priming Sugar ")
-        source_5.save()
-        source_6 = Source(variety="Fruit", name="Peaches")
-        source_6.save()
-        source_7 = Source(variety="Grains", name="Rahr 2-Row Pale")
-        source_7.save()
-        source_8 = Source(variety="Grains", name="Belgian Caramel Pils")
-        source_8.save()
-        source_9 = Source(variety="Grains", name="Briess Special Roast")
-        source_9.save()
-        source_10 = Source(variety="Grains", name="Belgian Biscuit malt")
-        source_10.save()
-        source_11 = Source(variety="Grains", name="English Chocolate Malt")
-        source_11.save()
-        source_12 = Source(variety="Yeast", name="Wyeast 1272 American Ale Yeast II")
-        source_12.save()
-        source_13 = Source(variety="Hops", name="Willamette (60-min)")
-        source_13.save()
-        source_14 = Source(variety="Hops", name="US Goldings (30-min)")
-        source_14.save()
-        source_15 = Source(variety="Priming Sugar", name="Priming Sugar ")
-        source_15.save()
-        source_16 = Source(variety="Grains", name="English Maris Otter")
-        source_16.save()
-        source_17 = Source(variety="Grains", name="English Chocolate Malt")
-        source_17.save()
-        source_18 = Source(variety="Grains", name="Briess Caramel 120")
-        source_18.save()
-        source_19 = Source(variety="Grains", name="Belgian Biscuit")
-        source_19.save()
-        source_20 = Source(variety="Grains", name="Briess Special Roast")
-        source_20.save()
-        source_21 = Source(variety="Yeast", name="Wyeast 1945 NB NeoBritannia")
-        source_21.save()
-        source_22 = Source(variety="Hops", name="US Fuggle")
-        source_22.save()
-        source_23 = Source(variety="Priming Sugar", name="Priming Sugar ")
-        source_23.save()
+        source_1 = Source.objects.get(variety="Grains", name="Weyermann Pale Wheat Malt")
+
+        source_2 = Source.objects.get(variety="Grains", name="German Pilsner Malt")
+
+        source_3 = Source.objects.get(variety="Yeast", name="Wyeast 3068 Weihenstephan Wheat")
+
+        source_4 = Source.objects.get(variety="Hops", name="Hallertau")
+
+        source_5 = Source.objects.get(variety="Priming Sugar", name="Priming Sugar")
+
+        source_6 = Source.objects.get(variety="Fruit", name="Peaches")
+
+        source_7 = Source.objects.get(variety="Grains", name="Rahr 2-Row Pale")
+
+        source_8 = Source.objects.get(variety="Grains", name="Belgian Caramel Pils")
+
+        source_9 = Source.objects.get(variety="Grains", name="Briess Special Roast")
+
+        source_10 = Source.objects.get(variety="Grains", name="Belgian Biscuit malt")
+
+        source_11 = Source.objects.get(variety="Grains", name="English Chocolate Malt")
+
+        source_12 = Source.objects.get(variety="Yeast", name="Wyeast 1272 American Ale Yeast II")
+
+        source_13 = Source.objects.get(variety="Hops", name="Willamette (60-min)")
+
+        source_14 = Source.objects.get(variety="Hops", name="US Goldings (30-min)")
+
+
+        source_16 = Source.objects.get(variety="Grains", name="English Maris Otter")
+
+
+        source_18 = Source.objects.get(variety="Grains", name="Briess Caramel 120")
+
+        source_19 = Source.objects.get(variety="Grains", name="Belgian Biscuit")
+
+
+        source_21 = Source.objects.get(variety="Yeast", name="Wyeast 1945 NB NeoBritannia")
+
+        source_22 = Source.objects.get(variety="Hops", name="US Fuggle")
+
+
 
         ingredient_1 = Ingredient(amount=5.5, unit="lbs", note="", source=source_1, recipe=recipe_1)
         ingredient_1.save()
@@ -145,23 +141,23 @@ class RegisterForm(forms.Form):
         ingredient_13.save()
         ingredient_14 = Ingredient(amount=0.75, unit="oz", note="", source=source_14, recipe=recipe_2)
         ingredient_14.save()
-        ingredient_15 = Ingredient(amount=0.5, unit="oz", note="", source=source_15, recipe=recipe_2)
+        ingredient_15 = Ingredient(amount=0.5, unit="oz", note="", source=source_5, recipe=recipe_2)
         ingredient_15.save()
         ingredient_16 = Ingredient(amount=7.5, unit="lbs", note="", source=source_16, recipe=recipe_3)
         ingredient_16.save()
-        ingredient_17 = Ingredient(amount=0.25, unit="lbs", note="", source=source_17, recipe=recipe_3)
+        ingredient_17 = Ingredient(amount=0.25, unit="lbs", note="", source=source_11, recipe=recipe_3)
         ingredient_17.save()
         ingredient_18 = Ingredient(amount=0.25, unit="lbs", note="", source=source_18, recipe=recipe_3)
         ingredient_18.save()
         ingredient_19 = Ingredient(amount=0.25, unit="lbs", note="", source=source_19, recipe=recipe_3)
         ingredient_19.save()
-        ingredient_20 = Ingredient(amount=0.25, unit="lbs", note="", source=source_20, recipe=recipe_3)
+        ingredient_20 = Ingredient(amount=0.25, unit="lbs", note="", source=source_9, recipe=recipe_3)
         ingredient_20.save()
         ingredient_21 = Ingredient(amount=0.0, unit="", note="", source=source_21, recipe=recipe_3)
         ingredient_21.save()
         ingredient_22 = Ingredient(amount=1.0, unit="oz", note="", source=source_22, recipe=recipe_3)
         ingredient_22.save()
-        ingredient_23 = Ingredient(amount=0.5, unit="oz", note="", source=source_23, recipe=recipe_3)
+        ingredient_23 = Ingredient(amount=0.5, unit="oz", note="", source=source_5, recipe=recipe_3)
         ingredient_23.save()
 
         procedure_1 = Procedure(title="BREWING DAY", tag="Yeast", content="Incubate Yeast ", note="", recipe=recipe_1)
