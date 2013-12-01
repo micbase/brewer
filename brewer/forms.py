@@ -246,3 +246,17 @@ class CreateRecipeForm(forms.Form):
                                 content=procedure_content[i],
                             )
         return new_recipe.id
+
+
+class UploadImageForm(forms.Form):
+    image = forms.ImageField()
+
+    def __init__(self, recipe_id, *args, **kwargs):
+        super(UploadImageForm, self).__init__(*args, **kwargs)
+        self.recipe_id = recipe_id
+
+    def save(self):
+        recipe = Recipe.objects.get(pk=self.recipe_id)
+        recipe.image = self.cleaned_data['image']
+        recipe.save()
+        return recipe

@@ -42,6 +42,7 @@ class Recipe(models.Model):
         blank=True,
     )
     status=models.PositiveSmallIntegerField(default=1)
+    image = models.ImageField(upload_to='images/')
     created = models.DateTimeField(auto_now_add=True)
     changed = models.DateTimeField(auto_now=True)
 

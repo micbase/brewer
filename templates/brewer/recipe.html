@@ -12,10 +12,16 @@
 </%def>
 
 <div class="col-xs-12">
-    <div>
-        <font size="6" > ${recipe.name} </font>
+    <h2> ${recipe.name}
         <a href="/edit_recipe/${recipe_id}"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href="/upload_image/${recipe_id}"><span class="glyphicon glyphicon-picture"></span></a>
+    </h2>
+    % if recipe.image:
+    <div class="col-xs-12">
+        <img src="/media/${recipe.image}" alt="Recipe Image" class="img-thumbnail center-block">
     </div>
+    % endif
+
     <hr>
     <h3>Ingredients</h3>
     <ul>

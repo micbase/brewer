@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 
     url(r'^recipe/(?P<recipe_id>\d+)$', brewer.views.RecipeView.as_view(), name='recipe'),
     url(r'^edit_recipe/(?P<recipe_id>\d+)$', brewer.views.EditRecipeView.as_view(), name='edit_recipe'),
+    url(r'^upload_image/(?P<recipe_id>\d+)$', brewer.views.UploadImageView.as_view(), name='upload_image'),
     url(r'^create_recipe$', brewer.views.CreateRecipeView.as_view(), name='create_recipe'),
     url(r'^recipe_note/(?P<recipe_id>\d+)$', brewer.views.RecipeNoteView.as_view(), name='recipe_note'),
     url(r'^ingredient_note/(?P<ingredient_id>\d+)$', brewer.views.IngredientNoteView.as_view(), name='ingredient_note'),
@@ -25,3 +26,6 @@ if settings.DEBUG:
     urlpatterns += patterns('django.contrib.staticfiles.views',
         url(r'^static/(?P<path>.*)$', 'serve'),
     )
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT}))

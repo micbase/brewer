@@ -14,6 +14,7 @@ from brewer.forms import (
     IngredientForm,
     ProcedureForm,
     RecipeForm,
+    UploadImageForm,
 )
 
 from brewer.models import (
@@ -232,4 +233,35 @@ class EditRecipeView(LoginRequiredMixin, FormView):
         context['recipe'] = self.get_recipe()
         context['ingredients'], context['ingredient_index'] = self.get_ingredient()
         context['procedures'], context['procedure_index'] = self.get_procedure()
+        return context
+
+
+class UploadImageView(LoginRequiredMixin, FormView):
+    template_name = 'brewer/upload.html'
+    form_class = UploadImageForm
+
+    def get_recipe(self):
+        self.recipe_id = self.kwargs['recipe_id']
+        return get_object_or_404(
+            Recipe,
+            brewer=self.request.user,
+            pk=self.recipe_id,
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super(UploadImageView, self).get_form_kwargs()
+        kwargs['recipe_id'] = self.kwargs['recipe_id']
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(UploadImageView, self).form_valid(form)
+
+    def get_success_url(self):
+        return '/recipe/' + str(self.kwargs['recipe_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadImageView, self).get_context_data(**kwargs)
+        context['recipe'] = self.get_recipe()
+        context['recipe_id'] = self.kwargs['recipe_id']
         return context
