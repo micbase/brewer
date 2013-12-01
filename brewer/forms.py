@@ -102,7 +102,14 @@ class CreateRecipeForm(forms.Form):
 
     def clean_amount(self):
         amount = self.cleaned_data['amount']
-        return amount.split(',')
+        amount_num = amount.split(',')
+
+        try:
+            amount_ = [float(item) for item in amount_num]
+        except ValueError:
+            raise forms.ValidationError('error')
+
+        return amount_
 
     def clean_unit(self):
         unit = self.cleaned_data['unit']
@@ -132,16 +139,16 @@ class CreateRecipeForm(forms.Form):
             h = len(self.cleaned_data['ingredient_idlist'])
             i = len(self.cleaned_data['procedure_idlist'])
         except KeyError:
-            return forms.ValidationError('error')
+            raise forms.ValidationError('error')
 
         if a != b or a != c or a != d:
-            return forms.ValidationError('error')
+            raise forms.ValidationError('error')
         if h != 0 and h != a:
-            return forms.ValidationError('error')
+            raise forms.ValidationError('error')
         if e != f or e != g:
-            return forms.ValidationError('error')
+            raise forms.ValidationError('error')
         if i != 0 and i != e:
-            return forms.ValidationError('error')
+            raise forms.ValidationError('error')
 
         if self.recipe_id == 0 or h == 0:
             self.cleaned_data['ingredient_idlist'] = [0] * c
