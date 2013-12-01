@@ -218,7 +218,7 @@ class EditRecipeView(LoginRequiredMixin, FormView):
         json_data = json.dumps({
             'success': True,
             'redirect': '/recipe/' + str(recipe_id),
-            'Del_redirect': '/'            
+            'Del_redirect': '/'
         })
         return HttpResponse(
             json_data,

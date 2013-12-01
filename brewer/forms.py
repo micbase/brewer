@@ -134,9 +134,9 @@ class CreateRecipeForm(forms.Form):
         except KeyError:
             return forms.ValidationError('error')
 
-        if a != b or a != c or a != d :
+        if a != b or a != c or a != d:
             return forms.ValidationError('error')
-        if h != 0 and h!= a:
+        if h != 0 and h != a:
             return forms.ValidationError('error')
         if e != f or e != g:
             return forms.ValidationError('error')
@@ -151,15 +151,15 @@ class CreateRecipeForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
-        recipe_status = self.cleaned_data['recipe_status']   
-        if recipe_status==0:
+        recipe_status = self.cleaned_data['recipe_status']
+        if recipe_status == 0:
             new_recipe = Recipe.objects.get(
                         pk=self.recipe_id,
                     )
 
-            new_recipe.status = recipe_status       
-            new_recipe.save()            
-        else:     
+            new_recipe.status = recipe_status
+            new_recipe.save()
+        else:
             recipe_name = self.cleaned_data['recipe_name']
             source_name = self.cleaned_data['source_name']
             source_variety = self.cleaned_data['source_variety']
@@ -186,7 +186,7 @@ class CreateRecipeForm(forms.Form):
                         )
 
             new_recipe.name = recipe_name
-            new_recipe.status = recipe_status       
+            new_recipe.status = recipe_status
             new_recipe.save()
 
             for i in range(len(ingredient_removelist)):
