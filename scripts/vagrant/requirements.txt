@@ -4,3 +4,4 @@ Mako
 djmako
 uwsgi
 django-nose
+PIL
