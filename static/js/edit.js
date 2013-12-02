@@ -81,9 +81,21 @@ $(function() {
         }
     });
 
+    $("#edit_btn").click(function()  {
+        edit_recipe(1, window.location.href);
+    });
+
+    $("#delete_btn").click(function()  {
+        edit_recipe(0, window.location.href);
+    });
+
+    $("#saveas_btn").click(function()  {
+        edit_recipe(1, '/create_recipe');
+    });
+
 });
 
-function edit_recipe(choice) {
+function edit_recipe(choice, url) {
     var all_category = '';
     var all_amount = '';
     var all_unit = '';
@@ -149,7 +161,7 @@ function edit_recipe(choice) {
     all_content = all_content.slice(0, -1);
     all_procedure_id = all_procedure_id.slice(0, -1);
 
-    $.post(window.location.href, {
+    $.post(url, {
         recipe_name: $('#recipe_name').val(),
         recipe_status:status,
         source_name: all_ingredient_name,
