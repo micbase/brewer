@@ -9,9 +9,11 @@
 <%def name="js_defer()">
     ${ parent.js_defer() }
 </%def>
-
 <div class="col-xs-12">
-    <h2 class="text-center">Create New User</h2>
+    <img src="/static/img/logo-beer-text.png" class="img-responsive center-block">
+</div>
+<div class="col-xs-12">
+    <h2>Create New User</h2>
     <form class="form-horizontal" id="inputForm" action="/register" method="post" role="form">
         <div class="col-xs-12">
             % for field in form:
