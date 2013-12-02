@@ -10,7 +10,7 @@ box = {
   :ip_address  => '192.168.42.2',
   :django_fwd  => 8000,
   :mysql_fwd   => 13306,
-  :vb_name     => 'purple_team',
+  :vb_name     => 'brewer',
   :memory_size => '1024',
 }
 
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "~", "/host_home"
-  config.vm.synced_folder "~/Documents/projects/purple_team/", "/home/vagrant/htdocs"
+  config.vm.synced_folder "~/Documents/projects/brewer/", "/home/vagrant/brewer"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
