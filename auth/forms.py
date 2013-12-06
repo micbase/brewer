@@ -61,13 +61,13 @@ class RegisterForm(forms.Form):
             username=self.cleaned_data['username'],
             password=self.cleaned_data['password'],
         )
-        recipe_1 = Recipe(name="Bavarian Hefeweizen", inote="Fruit 4lbs of Fresh Peaches", note="Loved this beer for summer and beginning fall. Rated it an 8 out of 10. Friends want to try a fruit version and suggested peach.", brewer=user)
+        recipe_1 = Recipe(name="Sample Recipe 1- Bavarian Hefeweizen", inote="Fruit 4lbs of Fresh Peaches", note="Loved this beer for summer and beginning fall. Rated it an 8 out of 10. Friends want to try a fruit version and suggested peach.", brewer=user)
         recipe_1.save()
 
-        recipe_2 = Recipe(name="Irish Red Ale", inote="", note="", brewer=user)
+        recipe_2 = Recipe(name="Sample Recipe 2-Irish Red Ale", inote="", note="", brewer=user)
         recipe_2.save()
 
-        recipe_3 = Recipe(name="Nut Brown Ale", inote="", note="", brewer=user)
+        recipe_3 = Recipe(name="Sample Recipe 3-Nut Brown Ale", inote="", note="", brewer=user)
         recipe_3.save()
 
         source_1 = Source.objects.get(variety="Grains", name="Weyermann Pale Wheat Malt")
