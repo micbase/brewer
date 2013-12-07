@@ -5,10 +5,13 @@ node default {
 
     include system
 
-    class { 'mysql::bindings::python': }
-    class { 'mysql::server':
-        config_hash => { 'root_password' => '' }
+    class { 'mysql::bindings':
+        python_enable => 1
     }
+    class { 'mysql::server':
+        root_password => 'root_password'
+    }
+
     mysql::db {
         'db':
             user     => 'db_user',
